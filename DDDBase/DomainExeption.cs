@@ -1,9 +1,9 @@
 ﻿using System.Runtime.Serialization;
 
-namespace FoodDelivery.Delivery.Domain.AgregationModels.DeliveryAgregate
+namespace DDD.Domain.Exeption
 {
     [Serializable]
-    internal class DomainExeption : Exception
+    public class DomainExeption : Exception
     {
         public DomainExeption()
         {

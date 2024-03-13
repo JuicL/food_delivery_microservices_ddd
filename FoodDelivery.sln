@@ -23,11 +23,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventBusRabbitMQ", "EventBu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IntegrationEventLogEF", "IntegrationEventLogEF\IntegrationEventLogEF.csproj", "{25A8D82A-0745-4891-94B3-EDA400223C46}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FoodDelivery.Delivery.Domain", "FoodDelivery.Delivery.Domain\FoodDelivery.Delivery.Domain.csproj", "{627013E5-4F2B-4303-922C-8866D2F8AC05}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodDelivery.Delivery.Domain", "FoodDelivery.Delivery.Domain\FoodDelivery.Delivery.Domain.csproj", "{627013E5-4F2B-4303-922C-8866D2F8AC05}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DDDBase", "DDDBase\DDDBase.csproj", "{9974C32F-0024-4A6A-A575-722C13C0C4ED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DDDBase", "DDDBase\DDDBase.csproj", "{9974C32F-0024-4A6A-A575-722C13C0C4ED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FoodDelivery.BasketApi", "FoodDelivery.BasketApi\FoodDelivery.BasketApi.csproj", "{0EAEA837-18F9-4BE6-9363-EDFCD90757DC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodDelivery.BasketApi", "FoodDelivery.BasketApi\FoodDelivery.BasketApi.csproj", "{0EAEA837-18F9-4BE6-9363-EDFCD90757DC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FoodDelivery.Delivery.Infrastructure", "FoodDelivery.Delivery.Infrastructure\FoodDelivery.Delivery.Infrastructure.csproj", "{46E7B4A9-2F5F-4E26-8ECD-93FA8BD95D0D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -87,6 +89,10 @@ Global
 		{0EAEA837-18F9-4BE6-9363-EDFCD90757DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0EAEA837-18F9-4BE6-9363-EDFCD90757DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0EAEA837-18F9-4BE6-9363-EDFCD90757DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{46E7B4A9-2F5F-4E26-8ECD-93FA8BD95D0D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46E7B4A9-2F5F-4E26-8ECD-93FA8BD95D0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46E7B4A9-2F5F-4E26-8ECD-93FA8BD95D0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46E7B4A9-2F5F-4E26-8ECD-93FA8BD95D0D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
