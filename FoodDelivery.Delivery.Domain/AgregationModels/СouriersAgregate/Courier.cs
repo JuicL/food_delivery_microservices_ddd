@@ -1,5 +1,5 @@
-﻿using FoodDelivery.Delivery.Domain.AgregationModels.ValueObjects;
-using FoodDelivery.RestaurantCatalogApi.Domain.Models;
+﻿using DDD.Domain.Models;
+using FoodDelivery.Delivery.Domain.AgregationModels.ValueObjects;
 using NetTopologySuite.Geometries;
 
 namespace FoodDelivery.Delivery.Domain.AgregationModels.СouriersAgregate

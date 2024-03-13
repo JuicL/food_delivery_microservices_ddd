@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using MediatR;
+﻿using MediatR;
 
-namespace FoodDelivery.RestaurantCatalogApi.Domain.Models
+namespace DDD.Domain.Models
 {
     public abstract class Entity
     {

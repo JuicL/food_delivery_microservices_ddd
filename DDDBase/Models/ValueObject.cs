@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace FoodDelivery.RestaurantCatalogApi.Domain.Models
+namespace DDD.Domain.Models
 {
     public abstract class ValueObject
     {

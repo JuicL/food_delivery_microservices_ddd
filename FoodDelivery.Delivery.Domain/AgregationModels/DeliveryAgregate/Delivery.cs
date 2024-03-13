@@ -1,5 +1,7 @@
-﻿using FoodDelivery.Delivery.Domain.AgregationModels.ValueObjects;
-using FoodDelivery.RestaurantCatalogApi.Domain.Models;
+﻿using DDD.Domain.Exeption;
+using DDD.Domain.Models;
+using FoodDelivery.Delivery.Domain.AgregationModels.ValueObjects;
+using FoodDelivery.Delivery.Domain.Events;
 
 namespace FoodDelivery.Delivery.Domain.AgregationModels.DeliveryAgregate
 {
@@ -49,22 +51,53 @@ namespace FoodDelivery.Delivery.Domain.AgregationModels.DeliveryAgregate
         #endregion
 
         #region Methods
+        public void SetLateness(long lateness)
+        {
+            if(lateness <= 0)
+            {
+                throw new DomainExeption("Invalid lateness value");
+            }
+            Lateness = lateness;
+        }
 
         public void AssignCourier(long courierId)
         {
             CourierId = courierId;
             DeliveryStatus = DeliveryStatus.Assigned;
+            StartDelivery = DateTime.UtcNow;
             AddDomainEvent(new CourierAssignedDomainEvent(Id));
         }
-        public void f()
-        {
 
+        public void SetWaitingReceiveStatus()
+        {
+            DeliveryStatus = DeliveryStatus.WaitingReceive;
+            AddDomainEvent(new DeliveryStatusChangedToWaitingReceiveDomainEvent(Id));
         }
 
-        public void Foo()
+        public void SetAcceptedForDeliveryStatus()
         {
-
+            DeliveryStatus = DeliveryStatus.AcceptedForDelivery;
+            AddDomainEvent(new DeliveryStatusChangedToAcceptedForDeliveryDomainEvent(Id));
         }
+
+        public void SetArrivedAtDeliveryLocationStatus()
+        {
+            DeliveryStatus = DeliveryStatus.ArrivedAtDeliveryLocation;
+            AddDomainEvent(new DeliveryStatusChangedToDeliveredLocationDomainEvent(Id));
+        }
+        public void SetDeliveredStatus()
+        {
+            DeliveryStatus = DeliveryStatus.Delivered;
+            DeliveredAt = DateTime.UtcNow;
+            AddDomainEvent(new DeliveryStatusChangedToDeliveredDomainEvent(Id));
+        }
+
+        public void SetCanceledStatus()
+        {
+            DeliveryStatus = DeliveryStatus.Canceled;
+            AddDomainEvent(new DeliveryStatusChangedToCanceledDomainEvent(Id));
+        }
+
         #endregion
     }
 }

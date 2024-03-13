@@ -1,4 +1,6 @@
-﻿using FoodDelivery.RestaurantCatalogApi.Domain.Models;
+﻿using DDD.Domain.Exeption;
+using DDD.Domain.Models;
+using FoodDelivery.Delivery.Domain.AgregationModels.DeliveryAgregate;
 using System.Text.RegularExpressions;
 
 namespace FoodDelivery.Delivery.Domain.AgregationModels.ValueObjects
@@ -18,7 +20,7 @@ namespace FoodDelivery.Delivery.Domain.AgregationModels.ValueObjects
             var result = regex.Match(number);
             if (!result.Success)
             {
-                throw new Exception("Invalid phone number");
+                throw new DomainExeption("Invalid phone number");
             }
             return new Phone(number);
         }

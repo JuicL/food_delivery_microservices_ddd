@@ -1,4 +1,5 @@
-﻿using FoodDelivery.RestaurantCatalogApi.Domain.Models;
+﻿
+using DDD.Domain.Models;
 
 namespace FoodDelivery.Delivery.Domain.AgregationModels.DeliveryAgregate
 {

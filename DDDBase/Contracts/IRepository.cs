@@ -1,6 +1,6 @@
-﻿using FoodDelivery.RestaurantCatalogApi.Domain.Models;
+﻿using DDD.Domain.Models;
 
-namespace FoodDelivery.RestaurantCatalogApi.Domain.Contracts
+namespace DDD.Domain.Contracts
 {
     public interface IRepository<TEntity> where TEntity : Entity
     {

@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Storage;
 
-namespace FoodDelivery.RestaurantCatalogApi.Domain.Contracts
+namespace DDD.Domain.Contracts
 {
     public interface IUnitOfWork : IDisposable
     {

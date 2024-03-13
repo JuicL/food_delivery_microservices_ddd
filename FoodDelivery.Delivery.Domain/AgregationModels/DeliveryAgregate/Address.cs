@@ -1,4 +1,6 @@
-﻿using FoodDelivery.RestaurantCatalogApi.Domain.Models;
+﻿
+using DDD.Domain.Exeption;
+using DDD.Domain.Models;
 
 namespace FoodDelivery.Delivery.Domain.AgregationModels.DeliveryAgregate
 {
@@ -37,7 +39,7 @@ namespace FoodDelivery.Delivery.Domain.AgregationModels.DeliveryAgregate
         {
             var splitAddress = address.Split(',');
             if (splitAddress.Length < 4)
-                throw new Exception("Uncorrect address format");
+                throw new DomainExeption("Uncorrect address format");
             return new Address(
                     splitAddress[0],
                     splitAddress[1],

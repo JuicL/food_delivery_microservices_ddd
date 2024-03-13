@@ -1,4 +1,4 @@
-﻿namespace FoodDelivery.RestaurantCatalogApi.Domain.Models
+﻿namespace DDD.Domain.Models
 {
     public interface IAggregationRoot
     {
