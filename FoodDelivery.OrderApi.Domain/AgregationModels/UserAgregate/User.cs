@@ -14,7 +14,7 @@ namespace FoodDelivery.OrderApi.Domain.AgregationModels.UserAgregate
         public User(long id,string userName,Phone phone)
         {
             this.Id = id;
-            UserName = !string.IsNullOrWhiteSpace(userName) ? userName : throw new ArgumentNullException(nameof(userName)); ;
+            UserName = !string.IsNullOrWhiteSpace(userName) ? userName : throw new ArgumentNullException(nameof(userName));
             Phone = phone;
         }
     }

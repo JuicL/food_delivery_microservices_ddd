@@ -21,7 +21,6 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 services.AddLogging();
 
-// Additional code to register the ILogger as a ILogger<T> where T is the Startup class
 services.AddTransient(typeof(ILogger), typeof(Logger<Program>));
 
 services.AddMediatR(cfg =>
@@ -31,6 +30,7 @@ services.AddMediatR(cfg =>
     cfg.AddOpenBehavior(typeof(LoggingBehavior<,>));
     cfg.AddOpenBehavior(typeof(ValidatorBehavior<,>));
 });
+
 services.AddSingleton<IValidator<CreateOrderRequestCommand>, CreateOrderRequestCommandValidator>();
 
 builder.Services.AddDbContext<OrderingContext>(options =>
@@ -44,7 +44,7 @@ services.AddTransient<IIntegrationEventLogService, IntegrationEventLogService<Or
 services.AddTransient<IOrderIntegrationEventService, OrderIntegrationEventService>();
 
 services.AddScoped<IOrderRequestRepository, OrderRequestRepository>();
-services.AddTransient<IUserRepository, UserRepository>();
+services.AddScoped<IUserRepository, UserRepository>();
 
 builder.AddRabbitMqEventBus("EventBus")
        .AddEventBusSubscriptions();

@@ -1,5 +1,4 @@
 ﻿using FoodDelivery.OrderApi.Domain.AgregationModels.OrderRequestAgregate;
-using FoodDelivery.OrderApi.Domain.AgregationModels.UserAgregate;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -19,6 +18,9 @@ namespace FoodDelivery.OrderApi.Infrastructure.EntityConfiguration
             builder.Property(x => x.UserName);
             builder.Property(x => x.UserId);
             builder.Property(x => x.BranchId);
+            builder.Property(x => x.RestaurantName);
+            builder.Property(x => x.Description);
+
             builder.Property(x => x.OrderTime);
             builder.OwnsOne(e => e.DeliveryAddress, b =>
             {
@@ -47,33 +49,6 @@ namespace FoodDelivery.OrderApi.Infrastructure.EntityConfiguration
             builder.HasMany(x => x.Dishes).WithOne();
 
             
-        }
-    }
-    public class DishesEntityTypeConfiguration : IEntityTypeConfiguration<Dishes>
-    {
-        public void Configure(EntityTypeBuilder<Dishes> builder)
-        {
-            builder.ToTable("Dishes", "dbo");
-            
-            builder.Ignore(r => r.DomainEvents);
-            builder.HasKey(r => r.Id);
-            builder.Property(x => x.DishId);
-            builder.Property(x => x.Name);
-            builder.OwnsOne(e => e.Weight, b => { b.Property(x => x.Grams); });
-            builder.OwnsOne(e => e.Price, b => { b.Property(x => x.Amount); });
-            builder.Property(x => x.Units);
-        }
-    }
-    public class UserEntityTypeConfiguration : IEntityTypeConfiguration<User>
-    {
-        public void Configure(EntityTypeBuilder<User> builder)
-        {
-            builder.ToTable("User", "dbo");
-
-            builder.Ignore(r => r.DomainEvents);
-            builder.HasKey(r => r.Id);
-            builder.Property(x => x.UserName);
-           
         }
     }
 }
