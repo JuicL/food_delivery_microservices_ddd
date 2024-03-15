@@ -7,15 +7,15 @@ using MediatR;
 
 namespace FoodDelivery.Delivering.API.Application.DomainEventHandlers
 {
-    public class CourierAssignedDomainEventHadler
-         : INotificationHandler<CourierAssignedDomainEvent>
+    public class DeliveryStatusChangedToWaitingReceiveDomainEventHandler
+            : INotificationHandler<DeliveryStatusChangedToWaitingReceiveDomainEvent>
     {
         private readonly ILogger _logger;
         private readonly IDeliveryIntegrationEventService _deliveryIntegrationEventService;
         private readonly IMediator _mediator;
         private readonly IDeliveryRepository _deliveryRepository;
 
-        public CourierAssignedDomainEventHadler(IDeliveryIntegrationEventService dileveryIntegrationEventService,
+        public DeliveryStatusChangedToWaitingReceiveDomainEventHandler(IDeliveryIntegrationEventService dileveryIntegrationEventService,
             IMediator mediator, IDeliveryRepository deliveryRepository, ILogger logger)
         {
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
@@ -23,13 +23,12 @@ namespace FoodDelivery.Delivering.API.Application.DomainEventHandlers
             _deliveryIntegrationEventService = dileveryIntegrationEventService ?? throw new ArgumentNullException(nameof(dileveryIntegrationEventService));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
-
-        public async Task Handle(CourierAssignedDomainEvent @event, CancellationToken cancellationToken)
+                                 
+        public async Task Handle(DeliveryStatusChangedToWaitingReceiveDomainEvent @event, CancellationToken cancellationToken)
         {
-            DeliveryApiTrace.LogDeliveryStatusUpdated(_logger, @event.Delivery.Id, @event.Delivery.DeliveryStatus);
-            
+            DeliveryApiTrace.LogDeliveryStatusUpdated(_logger, @event.DeliveryId,DeliveryStatus.WaitingReceive);
 
-            var integrationEvent = new CourierAssignedIntegrationEvent();
+            var integrationEvent = new DeliveryStatusChangedToWaitingReceiveIntegrationEvent(@event.DeliveryId);
             await _deliveryIntegrationEventService.AddAndSaveEventAsync(integrationEvent);
 
         }

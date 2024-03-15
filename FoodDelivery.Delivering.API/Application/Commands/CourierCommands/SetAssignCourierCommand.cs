@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace FoodDelivery.Delivering.API.Application.Commands
+namespace FoodDelivery.Delivering.API.Application.Commands.CourierCommands
 {
     public record SetAssignCourierCommand(
         long DeliveryId,

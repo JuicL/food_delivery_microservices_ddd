@@ -9,6 +9,7 @@ namespace FoodDelivery.Delivering.Domain.AgregationModels.DeliveryAgregate
         Task<Delivery> GetByIdAsync(long id);
         Task<List<Delivery>> GetByUserIdAsync(long id);
         Task<List<Delivery>> GetByCourierIdAsync(long id);
+        Task<List<Delivery>> GetActivesByCourierIdAsync(long id);
         Task<List<Delivery>> GetAllAsync();
     }
 }

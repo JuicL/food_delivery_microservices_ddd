@@ -1,4 +1,5 @@
 ﻿using DDD.Domain.Contracts;
+using FoodDelivery.Delivering.Domain.AgregationModels.DeliveryAgregate;
 using FoodDelivery.Delivering.Domain.AgregationModels.СouriersAgregate;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -23,9 +24,16 @@ namespace FoodDelivery.Delivering.Infrastructure.Repositories.Implementation
             return entity.Entity;
         }
 
-        public async Task<List<Courier>> GellAllFreeAsync()
+        public async Task<List<Courier>> GellAllFreeAsync(Address address)
         {
-            return await _deliveryContext.Couriers.Where(x => x.WorkStatus == WorkStatus.AtWork).ToListAsync();
+            return await _deliveryContext.Couriers.Where(x => x.WorkStatus == WorkStatus.AtWork)
+                .Where(x => x.WorkAddress.Country == address.Country && x.WorkAddress.City == address.City)
+                .OrderBy(e => 
+                    _deliveryContext.Deliveries
+                    .Where(x => x.CourierId == e.Id)
+                    .Where(x => x.DeliveryStatus.Name == DeliveryStatus.Delivered.Name)
+                    .Count())
+                .ToListAsync();
         }
 
         public async Task<List<Courier>> GellAllFreeNearestAsync(Point point, double? diameters = null)

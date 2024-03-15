@@ -2,5 +2,5 @@
 
 namespace FoodDelivery.Delivering.Domain.Events
 {
-    public record DeliveryStatusChangedToCanceledDomainEvent(long OrderId) : INotification;
+    public record DeliveryStatusChangedToCanceledDomainEvent(long DeliveryId) : INotification;
 }

@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace FoodDelivery.Delivering.API.Application.Commands
+namespace FoodDelivery.Delivering.API.Application.Commands.DeliveryCommands
 {
     public record CreateDeliveryCommand(
         long OrderId,
@@ -15,7 +15,4 @@ namespace FoodDelivery.Delivering.API.Application.Commands
         string RecipientAddress,
         string Description
         ) : IRequest<bool>;
-    public record SetOnWorkCourierStatus(long CourierId) : IRequest<bool>;
-    public record SetWorkOffCourierStatus(long CourierId) : IRequest<bool>;
-    public record SetCourierStatus(long CourierId) : IRequest<bool>;
 }

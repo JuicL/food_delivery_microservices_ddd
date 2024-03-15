@@ -1,5 +1,6 @@
 ﻿using DDD.Domain.Exeption;
 using DDD.Domain.Models;
+using FoodDelivery.Delivering.Domain.AgregationModels.DeliveryAgregate;
 using FoodDelivery.Delivering.Domain.AgregationModels.ValueObjects;
 using NetTopologySuite.Geometries;
 
@@ -8,21 +9,23 @@ namespace FoodDelivery.Delivering.Domain.AgregationModels.СouriersAgregate
     public class Courier: 
         Entity
     {
-        public Courier(long userId, string userName, Phone phoneNumber, Point location)
+        public Courier(long userId, string userName, Phone phoneNumber, WorkAddress workAddress)
         {
             Id = userId;
             UserName = !string.IsNullOrWhiteSpace(userName) ? userName : throw new ArgumentNullException(nameof(userName));
             PhoneNumber = phoneNumber;
-            Location = location;
+            WorkAddress = workAddress;
             WorkStatus = WorkStatus.WorkOff;
         }
 
         public string UserName { get; }
         public Phone PhoneNumber { get; }
-        public Point Location { get; }
+        public WorkAddress WorkAddress { get; private set; }
         public WorkStatus WorkStatus { get; private set; }
-        public void SetAtWorkStatus()
+       
+        public void SetAtWorkStatus(WorkAddress workAddress)
         {
+            WorkAddress = workAddress;
             WorkStatus = WorkStatus.AtWork;
         }
         public void SetWorkOffStatus()

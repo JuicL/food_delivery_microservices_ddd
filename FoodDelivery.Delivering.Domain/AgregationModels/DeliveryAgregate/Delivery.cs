@@ -83,7 +83,7 @@ namespace FoodDelivery.Delivering.Domain.AgregationModels.DeliveryAgregate
         public void SetArrivedAtDeliveryLocationStatus()
         {
             DeliveryStatus = DeliveryStatus.ArrivedAtDeliveryLocation;
-            AddDomainEvent(new DeliveryStatusChangedToDeliveredLocationDomainEvent(Id));
+            AddDomainEvent(new DeliveryStatusChangedToArrivedAtDeliveryLocationDomainEvent(Id));
         }
         public void SetDeliveredStatus()
         {

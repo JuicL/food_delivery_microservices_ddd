@@ -5,17 +5,17 @@ using FoodDelivery.Delivering.Domain.Events;
 using FoodDelivery.Delivering.Extention;
 using MediatR;
 
-namespace FoodDelivery.Delivering.API.Application.DomainEventHadlers
+namespace FoodDelivery.Delivering.API.Application.DomainEventHandlers
 {
-    public class DeliveryCreatedDomainEventHadler
-         : INotificationHandler<DeliveryCreatedDomainEvent>
+    public class DeliveryStatusChangedToDeliveredDomainEventHandler
+            : INotificationHandler<DeliveryStatusChangedToDeliveredDomainEvent>
     {
         private readonly ILogger _logger;
         private readonly IDeliveryIntegrationEventService _deliveryIntegrationEventService;
         private readonly IMediator _mediator;
         private readonly IDeliveryRepository _deliveryRepository;
 
-        public DeliveryCreatedDomainEventHadler(IDeliveryIntegrationEventService dileveryIntegrationEventService,
+        public DeliveryStatusChangedToDeliveredDomainEventHandler(IDeliveryIntegrationEventService dileveryIntegrationEventService,
             IMediator mediator, IDeliveryRepository deliveryRepository, ILogger logger)
         {
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
@@ -23,13 +23,12 @@ namespace FoodDelivery.Delivering.API.Application.DomainEventHadlers
             _deliveryIntegrationEventService = dileveryIntegrationEventService ?? throw new ArgumentNullException(nameof(dileveryIntegrationEventService));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
-
-        public async Task Handle(DeliveryCreatedDomainEvent @event, CancellationToken cancellationToken)
+                                 
+        public async Task Handle(DeliveryStatusChangedToDeliveredDomainEvent @event, CancellationToken cancellationToken)
         {
-            DeliveryApiTrace.LogDeliveryStatusUpdated(_logger, @event.Delivery.Id, @event.Delivery.DeliveryStatus);
+            DeliveryApiTrace.LogDeliveryStatusUpdated(_logger, @event.DeliveryId,DeliveryStatus.Delivered);
 
-
-            var integrationEvent = new DeliveryCreatedIntegrationEvent();
+            var integrationEvent = new DeliveryStatusChangedToDeliveredIntegrationEvent(@event.DeliveryId);
             await _deliveryIntegrationEventService.AddAndSaveEventAsync(integrationEvent);
 
         }

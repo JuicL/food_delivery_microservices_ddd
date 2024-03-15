@@ -2,5 +2,5 @@
 
 namespace FoodDelivery.Delivering.Domain.Events
 {
-    public record DeliveryStatusChangedToDeliveredLocationDomainEvent(long DeliveryId) : INotification;
+    public record DeliveryStatusChangedToArrivedAtDeliveryLocationDomainEvent(long DeliveryId) : INotification;
 }

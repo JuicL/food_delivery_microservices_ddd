@@ -22,6 +22,15 @@ namespace FoodDelivery.Delivering.Infrastructure.Repositories.Implementation
             return entity.Entity;
         }
 
+        public async Task<List<Delivery>> GetActivesByCourierIdAsync(long id)
+        {
+            return await _deliveryContext.Deliveries.Where(x => x.CourierId == id)
+                .Where(x=> x.DeliveryStatus != DeliveryStatus.Created 
+                && x.DeliveryStatus != DeliveryStatus.Delivered
+                && x.DeliveryStatus != DeliveryStatus.Canceled)
+                .ToListAsync();
+        }
+
         public async Task<List<Delivery>> GetAllAsync()
         {
             return await _deliveryContext.Deliveries.ToListAsync();
