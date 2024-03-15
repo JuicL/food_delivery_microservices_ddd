@@ -14,12 +14,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Application\Commands\" />
     <Folder Include="Application\IntegrationEvents\EventHandlers\" />
-    <Folder Include="Application\IntegrationEvents\Events\" />
     <Folder Include="Application\Queries\" />
     <Folder Include="Application\SignalR\" />
-    <Folder Include="DTOs\" />
   </ItemGroup>
 
   <ItemGroup>

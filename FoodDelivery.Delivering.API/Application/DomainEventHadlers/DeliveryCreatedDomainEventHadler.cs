@@ -7,15 +7,15 @@ using MediatR;
 
 namespace FoodDelivery.Delivering.API.Application.DomainEventHadlers
 {
-    public class CourierAssignedDomainEventHadler
-         : INotificationHandler<CourierAssignedDomainEvent>
+    public class DeliveryCreatedDomainEventHadler
+         : INotificationHandler<DeliveryCreatedDomainEvent>
     {
         private readonly ILogger _logger;
         private readonly IDeliveryIntegrationEventService _deliveryIntegrationEventService;
         private readonly IMediator _mediator;
         private readonly IDeliveryRepository _deliveryRepository;
 
-        public CourierAssignedDomainEventHadler(IDeliveryIntegrationEventService dileveryIntegrationEventService,
+        public DeliveryCreatedDomainEventHadler(IDeliveryIntegrationEventService dileveryIntegrationEventService,
             IMediator mediator, IDeliveryRepository deliveryRepository, ILogger logger)
         {
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
@@ -24,12 +24,12 @@ namespace FoodDelivery.Delivering.API.Application.DomainEventHadlers
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
-        public async Task Handle(CourierAssignedDomainEvent @event, CancellationToken cancellationToken)
+        public async Task Handle(DeliveryCreatedDomainEvent @event, CancellationToken cancellationToken)
         {
             DeliveryApiTrace.LogDeliveryStatusUpdated(_logger, @event.Delivery.Id, @event.Delivery.DeliveryStatus);
-            
 
-            var integrationEvent = new CourierAssignedIntegrationEvent();
+
+            var integrationEvent = new DeliveryCreatedIntegrationEvent();
             await _deliveryIntegrationEventService.AddAndSaveEventAsync(integrationEvent);
 
         }
