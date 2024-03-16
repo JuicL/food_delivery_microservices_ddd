@@ -1,5 +1,6 @@
 ﻿using DDD.Domain.Exeption;
 using DDD.Domain.Models;
+using FoodDelivery.Delivering.Domain.AgregationModels.AssignDeliveryAgregate;
 using FoodDelivery.Delivering.Domain.AgregationModels.DeliveryAgregate;
 using FoodDelivery.Delivering.Domain.AgregationModels.ValueObjects;
 using NetTopologySuite.Geometries;
@@ -9,6 +10,7 @@ namespace FoodDelivery.Delivering.Domain.AgregationModels.СouriersAgregate
     public class Courier: 
         Entity
     {
+        private Courier() { }   
         public Courier(long userId, string userName, Phone phoneNumber, WorkAddress workAddress)
         {
             Id = userId;

@@ -1,9 +1,7 @@
 ﻿using DDD.Domain.Contracts;
 using FoodDelivery.Delivering.Domain.AgregationModels.DeliveryAgregate;
 using FoodDelivery.Delivering.Domain.AgregationModels.СouriersAgregate;
-using MediatR;
 using Microsoft.EntityFrameworkCore;
-using NetTopologySuite.Geometries;
 
 namespace FoodDelivery.Delivering.Infrastructure.Repositories.Implementation
 {
@@ -31,22 +29,9 @@ namespace FoodDelivery.Delivering.Infrastructure.Repositories.Implementation
                 .OrderBy(e => 
                     _deliveryContext.Deliveries
                     .Where(x => x.CourierId == e.Id)
-                    .Where(x => x.DeliveryStatus.Name == DeliveryStatus.Delivered.Name)
+                    .Where(x => x.DeliveryStatus == DeliveryStatus.Delivered)
                     .Count())
                 .ToListAsync();
-        }
-
-        public async Task<List<Courier>> GellAllFreeNearestAsync(Point point, double? diameters = null)
-        {
-            if (diameters is not null)
-            {
-                return await _deliveryContext.Couriers.Where(x => x.WorkStatus == WorkStatus.AtWork)
-                    .Where(x => x.Location.Distance(point) < diameters).ToListAsync();
-            }
-
-            return await _deliveryContext.Couriers.Where(x => x.WorkStatus == WorkStatus.AtWork)
-                    .OrderBy(c => c.Location.Distance(point))
-                    .ToListAsync();
         }
 
         public async Task<List<Courier>> GetAllAsync()

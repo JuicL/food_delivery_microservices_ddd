@@ -12,7 +12,7 @@ namespace FoodDelivery.Delivering.Infrastructure.EntityConfiguration
         {
             builder.ToTable("Deliveries", "dbo");
             builder.Property(o => o.Id)
-               .UseHiLo("orderseq");
+               .UseHiLo("deliveryseq");
             builder.Ignore(r => r.DomainEvents);
 
             builder.Property(x => x.OrderId);
@@ -23,17 +23,27 @@ namespace FoodDelivery.Delivering.Infrastructure.EntityConfiguration
             builder.OwnsOne(e => e.TotalPrice, b => { b.Property(x => x.Amount); });
             builder.OwnsOne(e => e.PaymentMethod, b => {
                 b.Property(b => b.Name).HasColumnName("PaymentMethod");
+                b.Ignore(x => x.Id);
             });
             builder.Property(x => x.SenderName);
+            
             builder.OwnsOne(e => e.SenderAddress, b =>
             {
-                b.Property(e => e.GetFullAddress()).HasColumnName("SenderAddress");
+                b.Property(e => e.Country).HasColumnName("CountrySender");
+                b.Property(e => e.City).HasColumnName("CitySender");
+                b.Property(e => e.Street).HasColumnName("StreetSender");
+                b.Property(e => e.Home).HasColumnName("HomeSender");
             });
             
             builder.OwnsOne(e => e.RecipientAddress, b =>
             {
-                b.Property(e => e.GetFullAddress()).HasColumnName("RecipientAddress");
+                b.Property(e => e.Country).HasColumnName("CountryRecipient");
+                b.Property(e => e.City).HasColumnName("CityRecipient");
+                b.Property(e => e.Street).HasColumnName("StreetRecipient");
+                b.Property(e => e.Home).HasColumnName("HomeRecipient");
             });
+            
+           
             builder.Property(x => x.CourierId);
             builder.Property(x => x.StartDeliveryDateTime);
             builder.Property(x => x.DeliveredAt);

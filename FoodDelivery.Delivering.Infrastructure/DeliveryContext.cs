@@ -1,5 +1,6 @@
 ﻿using DDD.Domain.Contracts;
 using FoodDelibery.IntegrationEventLogEF;
+using FoodDelivery.Delivering.Domain.AgregationModels.AssignDeliveryAgregate;
 using FoodDelivery.Delivering.Domain.AgregationModels.DeliveryAgregate;
 using FoodDelivery.Delivering.Domain.AgregationModels.СouriersAgregate;
 using FoodDelivery.Delivering.Infrastructure.EntityConfiguration;
@@ -17,6 +18,7 @@ namespace FoodDelivery.Delivering.Infrastructure
         }
         public DbSet<Delivery> Deliveries { get; set; }
         public DbSet<Courier> Couriers { get; set; }
+        public DbSet<AssignDelivery> AssignDeliveries { get; set; }
 
         private readonly IMediator _mediator;
 
@@ -27,9 +29,10 @@ namespace FoodDelivery.Delivering.Infrastructure
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.HasPostgresExtension("postgis");
+          
             modelBuilder.ApplyConfiguration(new DeliveryEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new CourierEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new AssignDeliveryEntityTypeConfiguration());
             modelBuilder.UseIntegrationEventLogs();
         }
 

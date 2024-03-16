@@ -11,7 +11,7 @@ namespace FoodDelivery.Delivering.Infrastructure.EntityConfiguration
         {
             builder.ToTable("Couriers", "dbo");
             builder.Property(o => o.Id)
-               .UseHiLo("orderseq");
+               .UseHiLo("deliveryseq");
             builder.Ignore(r => r.DomainEvents);
             builder.Property(x => x.UserName);
             builder.OwnsOne(x => x.PhoneNumber, p => { p.Property(x => x.Number).HasColumnName("UserPhone"); });

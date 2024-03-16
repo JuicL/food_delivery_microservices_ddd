@@ -12,6 +12,5 @@ namespace FoodDelivery.Delivering.Domain.AgregationModels.СouriersAgregate
         Task<Courier> GetByIdAsync (long id);
         Task<List<Courier>> GetAllAsync();
         Task<List<Courier>> GellAllFreeAsync(Address address);
-        Task<List<Courier>> GellAllFreeNearestAsync(Point point, double? diameters = null);
     }
 }

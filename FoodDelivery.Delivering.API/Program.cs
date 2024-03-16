@@ -32,7 +32,7 @@ builder.Services.AddDbContext<DeliveryContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DeliveringApiDatabase"),o =>
         {
             o.MigrationsAssembly("FoodDelivery.DeliveringAPI");
-            o.UseNetTopologySuite();
+            
         });
 });
 services.AddTransient<IIntegrationEventLogService, IntegrationEventLogService<DeliveryContext>>();
@@ -56,8 +56,8 @@ using (var scope = app.Services.CreateScope())
 {
     var serviceProvider = scope.ServiceProvider;
     var context = serviceProvider.GetRequiredService<DeliveryContext>();
-    //context.Database.EnsureDeleted();
-    //context.Database.EnsureCreated();
+    context.Database.EnsureDeleted();
+    context.Database.EnsureCreated();
 }
 app.UseHttpsRedirection();
 

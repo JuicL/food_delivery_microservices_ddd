@@ -15,7 +15,6 @@ namespace FoodDelivery.Delivering.Domain.AgregationModels.DeliveryAgregate
             Home = home;
         }
 
-        public Point? Location { get; private set; }
         /// <summary>
         /// Страна
         /// </summary>
@@ -33,10 +32,7 @@ namespace FoodDelivery.Delivering.Domain.AgregationModels.DeliveryAgregate
         /// </summary>
         public string Home { get; private set; }
        
-        public void SetLocation(Point location)
-        {
-            Location = location;
-        }
+
 
         public string GetFullAddress()
         {

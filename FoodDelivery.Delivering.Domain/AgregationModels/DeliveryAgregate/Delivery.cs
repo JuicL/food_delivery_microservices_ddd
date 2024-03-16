@@ -7,6 +7,10 @@ namespace FoodDelivery.Delivering.Domain.AgregationModels.DeliveryAgregate
 {
     public class Delivery : Entity
     {
+        private Delivery()
+        {
+
+        }
         public Delivery(long orderId, long recipientId, string recipientName, Phone userPhoneNumber, Weight totalWeight, Price totalPrice, PaymentMethod paymentMethod, string senderName, Address senderAddress, Address recipientAddress, string description)
         {
             OrderId = orderId;
@@ -20,7 +24,7 @@ namespace FoodDelivery.Delivering.Domain.AgregationModels.DeliveryAgregate
             SenderAddress = senderAddress;
             RecipientAddress = recipientAddress;
             Description = description;
-            DeliveryDate = DateTime.UtcNow;
+            
             AddDomainEvent(new DeliveryCreatedDomainEvent(this));
         }
 
