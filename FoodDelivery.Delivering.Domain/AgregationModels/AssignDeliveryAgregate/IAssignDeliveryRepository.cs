@@ -7,6 +7,6 @@ namespace FoodDelivery.Delivering.Domain.AgregationModels.AssignDeliveryAgregate
         Task<AssignDelivery> CreateAsync(AssignDelivery assignDelivery);
         Task<AssignDelivery> UpdateAsync(AssignDelivery assignDelivery);
         Task<AssignDelivery> GetByIdAsync(long id);
-        Task<AssignDelivery> GetCourierAndDeliveryIdsAsync(long deliveryId, long courierId);
+        Task<AssignDelivery> GetByCourierAndDeliveryIdsAsync(long deliveryId, long courierId);
     }
 }
