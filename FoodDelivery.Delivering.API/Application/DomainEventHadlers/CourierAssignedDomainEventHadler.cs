@@ -29,7 +29,7 @@ namespace FoodDelivery.Delivering.API.Application.DomainEventHandlers
             DeliveryApiTrace.LogDeliveryStatusUpdated(_logger, @event.Delivery.Id, @event.Delivery.DeliveryStatus);
             
 
-            var integrationEvent = new CourierAssignedIntegrationEvent();
+            var integrationEvent = new CourierAssignedIntegrationEvent(@event.Delivery.Id,@event.Delivery.CourierId.Value);
             await _deliveryIntegrationEventService.AddAndSaveEventAsync(integrationEvent);
 
         }

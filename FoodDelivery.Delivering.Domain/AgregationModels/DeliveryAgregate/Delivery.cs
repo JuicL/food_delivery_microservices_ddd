@@ -20,6 +20,7 @@ namespace FoodDelivery.Delivering.Domain.AgregationModels.DeliveryAgregate
             SenderAddress = senderAddress;
             RecipientAddress = recipientAddress;
             Description = description;
+            DeliveryDate = DateTime.UtcNow;
             AddDomainEvent(new DeliveryCreatedDomainEvent(this));
         }
 
@@ -41,7 +42,7 @@ namespace FoodDelivery.Delivering.Domain.AgregationModels.DeliveryAgregate
         public Address RecipientAddress { get; }
         public long? CourierId { get; private set; }
         
-        public DateTime? StartDelivery { get; private set; }
+        public DateTime? StartDeliveryDateTime { get; private set; }
         public DateTime? DeliveredAt { get; private set; }
         //Minutes
         public long Lateness { get; private set; }
@@ -64,7 +65,7 @@ namespace FoodDelivery.Delivering.Domain.AgregationModels.DeliveryAgregate
         {
             CourierId = courierId;
             DeliveryStatus = DeliveryStatus.Assigned;
-            StartDelivery = DateTime.UtcNow;
+            StartDeliveryDateTime = DateTime.UtcNow;
             AddDomainEvent(new CourierAssignedDomainEvent(this));
         }
 

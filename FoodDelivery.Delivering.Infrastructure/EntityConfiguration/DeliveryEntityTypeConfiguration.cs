@@ -35,7 +35,7 @@ namespace FoodDelivery.Delivering.Infrastructure.EntityConfiguration
                 b.Property(e => e.GetFullAddress()).HasColumnName("RecipientAddress");
             });
             builder.Property(x => x.CourierId);
-            builder.Property(x => x.StartDelivery);
+            builder.Property(x => x.StartDeliveryDateTime);
             builder.Property(x => x.DeliveredAt);
             builder.Property(x => x.Lateness);
             builder.Property(x => x.Description);
