@@ -18,10 +18,10 @@ namespace FoodDelivery.OrderApi.Application.Queries
             if (order is null)
                 throw new Exception("Order not found");
 
-            var orderResponse = new OrderResponseDTO(order.Id,order.UserId,order.UserName,order.DeliveryAddress.GetFullAddress(),
-                order.BranchId,order.RestaurantAddress.GetFullAddress(),order.PaymentMethod.Name,order.OrderTime,
+            var orderResponse = new OrderResponseDTO(order.Id,order.UserId,order.UserName,order.Phone.Number,order.DeliveryAddress.GetFullAddress(),
+                order.BranchId,order.RestaurantName,order.RestaurantAddress.GetFullAddress(),order.PaymentMethod.Name,order.OrderTime,
                 order.Dishes.Select(x=> new DishesDTO() { Id = x.DishId, Name = x.Name, Price = x.Price.Amount, Weight = x.Weight.Grams}).ToList()
-                );
+                ,order.Description);
             return orderResponse;
         }
     }

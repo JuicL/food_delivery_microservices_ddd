@@ -9,8 +9,8 @@ namespace FoodDelivery.Delivering.Domain.AgregationModels.DeliveryAgregate
     {
         private Delivery()
         {
-
         }
+
         public Delivery(long orderId, long recipientId, string recipientName, Phone userPhoneNumber, Weight totalWeight, Price totalPrice, PaymentMethod paymentMethod, string senderName, Address senderAddress, Address recipientAddress, string description)
         {
             OrderId = orderId;

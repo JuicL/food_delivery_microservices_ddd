@@ -32,9 +32,15 @@ public class OrderStatusChangedToPaidDomainEventHadler
         OrderingApiTrace.LogOrderStatusUpdated(_logger, domainEvent.OrderId, OrderStatus.Paid);
 
         var order = await _orderRequestRepository.GetAsync(domainEvent.OrderId);
-        var orderItems = order.Dishes.Select(x => new OrderItem(x.Id,x.Units)).ToList();
 
-        var integrationEvent = new OrderStatusChangedToPaidIntegrationEvent(order.Id, order.BranchId, orderItems);
+        var orderResponse = new OrderResponseDTO(order.Id, order.UserId, order.UserName, order.Phone.Number, order.DeliveryAddress.GetFullAddress(),
+               order.BranchId, order.RestaurantName, order.RestaurantAddress.GetFullAddress(), order.PaymentMethod.Name, order.OrderTime,
+               order.Dishes.Select(x => new DishesDTO() { Id = x.DishId, Name = x.Name, Price = x.Price.Amount, Weight = x.Weight.Grams,Units = x.Units }).ToList(),
+               order.Description
+               );
+
+        var integrationEvent = new OrderStatusChangedToPaidIntegrationEvent(orderResponse);
         await _orderingIntegrationEventService.AddAndSaveEventAsync(integrationEvent);
     }
+    
 }
