@@ -26,5 +26,26 @@ namespace FoodDelivery.OrderApi.Application.IntegrationEvents.EventHandlers
 
             await mediator.Send(command);
         }
+    } 
+    public class OrderDeliveredIntegrationEventHandler(
+    IMediator mediator,
+    ILogger<OrderDeliveredIntegrationEventHandler> logger) :
+    IIntegrationEventHandler<OrderDeliveredIntegrationEvent>
+    {
+        public async Task Handle(OrderDeliveredIntegrationEvent @event)
+        {
+            logger.LogInformation("Handling integration event: {IntegrationEventId} - ({@IntegrationEvent})", @event.Id, @event);
+
+            var command = new SetDeliveredOrderStatusCommand(@event.OrderId);
+
+            logger.LogInformation(
+                "Sending command: {CommandName} - {IdProperty}: {CommandId} ({@Command})",
+                command.GetGenericTypeName(),
+                nameof(command.OrderId),
+                command.OrderId,
+                command);
+
+            await mediator.Send(command);
+        }
     }
 }

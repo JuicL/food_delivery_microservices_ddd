@@ -1,6 +1,5 @@
 ﻿using DDD.Domain.Contracts;
 using FoodDelivery.Delivering.Domain.AgregationModels.AssignDeliveryAgregate;
-using FoodDelivery.Delivering.Domain.AgregationModels.DeliveryAgregate;
 using Microsoft.EntityFrameworkCore;
 
 namespace FoodDelivery.Delivering.Infrastructure.Repositories.Implementation
@@ -32,7 +31,6 @@ namespace FoodDelivery.Delivering.Infrastructure.Repositories.Implementation
             return await _deliveryContext.AssignDeliveries
                 .Where(x => x.DeliveryId == deliveryId)
                 .Where(x=> x.CourierId == courierId)
-                .OrderBy(x=> x.AssignDateTime)
                 .SingleOrDefaultAsync();
 
         }
@@ -40,6 +38,21 @@ namespace FoodDelivery.Delivering.Infrastructure.Repositories.Implementation
         public Task<AssignDelivery> UpdateAsync(AssignDelivery assignDelivery)
         {
             return Task.FromResult(_deliveryContext.AssignDeliveries.Update(assignDelivery).Entity);
+        }
+
+        public async Task<List<AssignDelivery>> GetByCourierIdAsync(long courierId)
+        {
+            return await _deliveryContext.AssignDeliveries
+                .Where(x => x.CourierId == courierId)
+                .ToListAsync();
+        }
+
+        public async Task<List<AssignDelivery>> GetByCourierIdAndStatusAsync(long courierId, AssignDeliveryStatus status)
+        {
+            return await _deliveryContext.AssignDeliveries
+                .Where(x => x.CourierId == courierId)
+                .Where(x=> x.Status == status)
+                .ToListAsync();
         }
     }
 }

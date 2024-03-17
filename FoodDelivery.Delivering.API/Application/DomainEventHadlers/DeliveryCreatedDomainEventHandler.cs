@@ -3,6 +3,7 @@ using FoodDelivery.Delivering.Application.IntegrationEvents;
 using FoodDelivery.Delivering.Domain.AgregationModels.DeliveryAgregate;
 using FoodDelivery.Delivering.Domain.Events;
 using FoodDelivery.Delivering.Extention;
+using FoodDelivery.OrderApi.Application.IntegrationEvents.Events;
 using MediatR;
 
 namespace FoodDelivery.Delivering.API.Application.DomainEventHandlers
@@ -27,9 +28,11 @@ namespace FoodDelivery.Delivering.API.Application.DomainEventHandlers
         public async Task Handle(DeliveryCreatedDomainEvent @event, CancellationToken cancellationToken)
         {
             DeliveryApiTrace.LogDeliveryStatusUpdated(_logger, @event.Delivery.Id, @event.Delivery.DeliveryStatus);
+            var orderTakenToDeliveryEvent = new OrderTakenToDeliveryIntegrationEvent(@event.Delivery.OrderId,@event.Delivery.Id);
+            await _deliveryIntegrationEventService.AddAndSaveEventAsync(orderTakenToDeliveryEvent);
 
-            var integrationEvent = new DeliveryCreatedIntegrationEvent(@event.Delivery.Id);
-            await _deliveryIntegrationEventService.AddAndSaveEventAsync(integrationEvent);
+            //var integrationEvent = new DeliveryCreatedIntegrationEvent(@event.Delivery.OrderId);
+            //await _deliveryIntegrationEventService.AddAndSaveEventAsync(integrationEvent);
 
         }
     }
