@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace FoodDelivery.OrderApi.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/v1/[controller]")]
     public class OrderRequestController : ControllerBase
     {
         private readonly ILogger<OrderRequestController> _logger;
@@ -18,7 +18,7 @@ namespace FoodDelivery.OrderApi.Controllers
             IMediator mediator)
         {
             _logger = logger ?? throw new NullReferenceException(nameof(logger));
-            _mediator = mediator ?? throw new NullReferenceException(nameof(mediator)); ;
+            _mediator = mediator ?? throw new NullReferenceException(nameof(mediator));
         }
         /// <summary>
         /// 
