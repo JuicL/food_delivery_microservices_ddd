@@ -1,4 +1,5 @@
 using FoodDelibery.IntegrationEventLogEF.Services;
+using FoodDelivery.Delivering.API.Application.Services.SignalR;
 using FoodDelivery.Delivering.Application.Behaviors;
 using FoodDelivery.Delivering.Application.IntegrationEvents;
 using FoodDelivery.Delivering.Domain.AgregationModels.DeliveryAgregate;
@@ -40,11 +41,14 @@ services.AddTransient<IDeliveryIntegrationEventService, DeliveryIntegrationEvent
 
 services.AddScoped<IDeliveryRepository, DeliveryRepository>();
 services.AddScoped<ICourierRepository, CourierRepository>();
+services.AddSignalR();
 
 builder.AddRabbitMqEventBus("EventBus")
        .AddEventBusSubscriptions();
 
 var app = builder.Build();
+
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -52,6 +56,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
 using (var scope = app.Services.CreateScope())
 {
     var serviceProvider = scope.ServiceProvider;
@@ -63,6 +68,7 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
+app.MapHub<DeliveryHub>("/deliveryHub");
 app.MapControllers();
 
 app.Run();
