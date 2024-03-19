@@ -23,7 +23,10 @@ namespace FoodDelivery.Delivering.Infrastructure.Repositories.Implementation
 
         public async Task<AssignDelivery> GetByIdAsync(long id)
         {
-            return await _deliveryContext.AssignDeliveries.Where(x => x.Id == id).SingleOrDefaultAsync();
+            return await _deliveryContext.AssignDeliveries.Where(x => x.Id == id)
+                .Include(x => x.Delivery)
+                .Include(x => x.Courier)
+                .SingleOrDefaultAsync();
         }
 
         public async Task<AssignDelivery> GetByCourierAndDeliveryIdsAsync(long deliveryId, long courierId)
@@ -31,6 +34,8 @@ namespace FoodDelivery.Delivering.Infrastructure.Repositories.Implementation
             return await _deliveryContext.AssignDeliveries
                 .Where(x => x.DeliveryId == deliveryId)
                 .Where(x=> x.CourierId == courierId)
+                .Include(x=> x.Delivery)
+                .Include(x=> x.Courier)
                 .SingleOrDefaultAsync();
 
         }
@@ -44,6 +49,7 @@ namespace FoodDelivery.Delivering.Infrastructure.Repositories.Implementation
         {
             return await _deliveryContext.AssignDeliveries
                 .Where(x => x.CourierId == courierId)
+                .Include(x => x.Delivery)
                 .ToListAsync();
         }
 

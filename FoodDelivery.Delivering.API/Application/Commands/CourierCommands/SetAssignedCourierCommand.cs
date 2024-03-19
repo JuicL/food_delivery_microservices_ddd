@@ -2,9 +2,8 @@
 
 namespace FoodDelivery.Delivering.API.Application.Commands.CourierCommands
 {
-    public record SetAssignCourierCommand(
+    public record SetAssignedCourierCommand(
         long DeliveryId,
         long CourierId
-        ) : IRequest<bool>; 
-    
+        ) : IRequest<bool>;
 }

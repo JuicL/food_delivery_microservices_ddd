@@ -1,4 +1,6 @@
-﻿using MediatR;
+﻿using FoodDelivery.Delivering.Domain.AgregationModels.AssignDeliveryAgregate;
+using FoodDelivery.Delivering.Domain.AgregationModels.DeliveryAgregate;
+using MediatR;
 
 namespace FoodDelivery.Delivering.API.Application.Commands.CourierCommands
 {

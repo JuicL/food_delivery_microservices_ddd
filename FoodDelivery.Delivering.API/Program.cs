@@ -1,7 +1,9 @@
 using FoodDelibery.IntegrationEventLogEF.Services;
+using FoodDelivery.Delivering.API.Application.Services;
 using FoodDelivery.Delivering.API.Application.Services.SignalR;
 using FoodDelivery.Delivering.Application.Behaviors;
 using FoodDelivery.Delivering.Application.IntegrationEvents;
+using FoodDelivery.Delivering.Domain.AgregationModels.AssignDeliveryAgregate;
 using FoodDelivery.Delivering.Domain.AgregationModels.DeliveryAgregate;
 using FoodDelivery.Delivering.Domain.AgregationModels.ÑouriersAgregate;
 using FoodDelivery.Delivering.Infrastructure;
@@ -41,6 +43,12 @@ services.AddTransient<IDeliveryIntegrationEventService, DeliveryIntegrationEvent
 
 services.AddScoped<IDeliveryRepository, DeliveryRepository>();
 services.AddScoped<ICourierRepository, CourierRepository>();
+services.AddScoped<IAssignDeliveryRepository, AssignDeliveryRepository>();
+
+services.AddSingleton<AssignDeliveryQueue, AssignDeliveryQueue>();
+
+services.AddHostedService<AssignedDeliveryService>();
+
 services.AddSignalR();
 
 builder.AddRabbitMqEventBus("EventBus")

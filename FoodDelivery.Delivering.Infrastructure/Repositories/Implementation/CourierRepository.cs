@@ -26,11 +26,6 @@ namespace FoodDelivery.Delivering.Infrastructure.Repositories.Implementation
         {
             return await _deliveryContext.Couriers.Where(x => x.WorkStatus == WorkStatus.AtWork)
                 .Where(x => x.WorkAddress.Country == address.Country && x.WorkAddress.City == address.City)
-                .OrderBy(e => 
-                    _deliveryContext.Deliveries
-                    .Where(x => x.CourierId == e.Id)
-                    .Where(x => x.DeliveryStatus == DeliveryStatus.Delivered)
-                    .Count())
                 .ToListAsync();
         }
 

@@ -2,20 +2,19 @@
 using FoodDelivery.Delivering.Application.IntegrationEvents;
 using FoodDelivery.Delivering.Domain.AgregationModels.DeliveryAgregate;
 using FoodDelivery.Delivering.Domain.Events;
-using FoodDelivery.Delivering.Extention;
 using MediatR;
 
 namespace FoodDelivery.Delivering.API.Application.DomainEventHandlers
 {
-    public class CourierAssignedDomainEventHadler
-         : INotificationHandler<CourierAssignedDomainEvent>
+    public class AssignDeliveryStatusChangedToWaitingConfirmDomainEventHandler
+         : INotificationHandler<AssignDeliveryStatusChangedToWaitingConfirmDomainEvent>
     {
         private readonly ILogger _logger;
         private readonly IDeliveryIntegrationEventService _deliveryIntegrationEventService;
         private readonly IMediator _mediator;
         private readonly IDeliveryRepository _deliveryRepository;
 
-        public CourierAssignedDomainEventHadler(IDeliveryIntegrationEventService dileveryIntegrationEventService,
+        public AssignDeliveryStatusChangedToWaitingConfirmDomainEventHandler(IDeliveryIntegrationEventService dileveryIntegrationEventService,
             IMediator mediator, IDeliveryRepository deliveryRepository, ILogger logger)
         {
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
@@ -24,13 +23,13 @@ namespace FoodDelivery.Delivering.API.Application.DomainEventHandlers
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
-        public async Task Handle(CourierAssignedDomainEvent @event, CancellationToken cancellationToken)
+        public async Task Handle(AssignDeliveryStatusChangedToWaitingConfirmDomainEvent @event, CancellationToken cancellationToken)
         {
-            DeliveryApiTrace.LogDeliveryStatusUpdated(_logger, @event.Delivery.Id, @event.Delivery.DeliveryStatus);
+            //DeliveryApiTrace.LogDeliveryStatusUpdated(_logger, @event.Delivery.Id, @event.Delivery.DeliveryStatus);
             
 
-            var integrationEvent = new CourierAssignedIntegrationEvent(@event.Delivery.Id,@event.Delivery.CourierId.Value);
-            await _deliveryIntegrationEventService.AddAndSaveEventAsync(integrationEvent);
+            //var integrationEvent = new CourierAssignedIntegrationEvent(@event.Delivery.Id,@event.Delivery.CourierId.Value);
+            //await _deliveryIntegrationEventService.AddAndSaveEventAsync(integrationEvent);
 
         }
     }

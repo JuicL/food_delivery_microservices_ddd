@@ -17,6 +17,17 @@ namespace FoodDelivery.Delivering.API.Controllers
             _logger = logger ?? throw new NullReferenceException(nameof(logger));
             _mediator = mediator ?? throw new NullReferenceException(nameof(mediator));
         }
+        //AtWork
+        //WorkOff
+        //CancelDelivery
+        
+        //AcceptDelivery
+        //AtPlaceReceipt
+        //AcceptForDelivery
+        //AtDeliveryPlace
+        //Delivered
+
+        //GetAllAssignedDeliveries
 
     }
 }

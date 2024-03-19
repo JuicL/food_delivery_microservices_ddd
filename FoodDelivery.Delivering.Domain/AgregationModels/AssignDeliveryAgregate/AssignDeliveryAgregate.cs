@@ -7,12 +7,14 @@ namespace FoodDelivery.Delivering.Domain.AgregationModels.AssignDeliveryAgregate
     public class AssignDelivery : Entity
     {
         private AssignDelivery() { }
-        public AssignDelivery(long courierId, long deliveryId)
+        public AssignDelivery(long deliveryId, long courierId)
         {
             CourierId = courierId;
             DeliveryId = deliveryId;
             Status = AssignDeliveryStatus.WaitingConfirm;
             AssignDateTime = DateTime.UtcNow;
+            AddDomainEvent(new AssignDeliveryStatusChangedToWaitingConfirmDomainEvent(this));
+
         }
 
         public long CourierId { get; }
@@ -21,11 +23,13 @@ namespace FoodDelivery.Delivering.Domain.AgregationModels.AssignDeliveryAgregate
         public Delivery Delivery { get; }
         public AssignDeliveryStatus Status{ get; private set; }
         public DateTime AssignDateTime { get; }
+
         public void SetInProcessStatus()
         {
             if(Status == AssignDeliveryStatus.WaitingConfirm)
             {
                 Status = AssignDeliveryStatus.InProgress;
+                AddDomainEvent(new AssignDeliveryStatusChangedToInProcessDomainEvent(this));
             }
         }
         public void SetDeliveredStatus()
@@ -33,6 +37,8 @@ namespace FoodDelivery.Delivering.Domain.AgregationModels.AssignDeliveryAgregate
             if(Status == AssignDeliveryStatus.InProgress)
             {
                 Status = AssignDeliveryStatus.Delivered;
+                AddDomainEvent(new AssignDeliveryStatusChangedToDeliveredDomainEvent(this));
+
             }
         }
         public void SetMissStatus()
@@ -40,6 +46,8 @@ namespace FoodDelivery.Delivering.Domain.AgregationModels.AssignDeliveryAgregate
             if(Status == AssignDeliveryStatus.WaitingConfirm)
             {
                 Status = AssignDeliveryStatus.Miss;
+                AddDomainEvent(new AssignDeliveryStatusChangedToMissDomainEvent(this));
+
             }
         }
         public void SetCanceledStatus()
@@ -47,6 +55,7 @@ namespace FoodDelivery.Delivering.Domain.AgregationModels.AssignDeliveryAgregate
             if(Status == AssignDeliveryStatus.InProgress)
             {
                 Status = AssignDeliveryStatus.Canceled;
+                AddDomainEvent(new AssignDeliveryStatusChangedToCanceledDomainEvent(this));
             }
         }
     }
