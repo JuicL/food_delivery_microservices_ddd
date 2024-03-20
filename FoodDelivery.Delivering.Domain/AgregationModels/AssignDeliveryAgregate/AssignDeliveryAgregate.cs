@@ -1,6 +1,7 @@
 ﻿using DDD.Domain.Models;
 using FoodDelivery.Delivering.Domain.AgregationModels.DeliveryAgregate;
 using FoodDelivery.Delivering.Domain.AgregationModels.СouriersAgregate;
+using FoodDelivery.Delivering.Domain.Events;
 
 namespace FoodDelivery.Delivering.Domain.AgregationModels.AssignDeliveryAgregate
 {

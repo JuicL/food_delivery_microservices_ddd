@@ -17,6 +17,7 @@ namespace FoodDelivery.OrderApi.Infrastructure.EntityConfiguration
             builder.Ignore(r => r.DomainEvents);
             builder.Property(x => x.UserName);
             builder.Property(x => x.UserId);
+            builder.OwnsOne(x => x.Phone, p=> p.Property(e=> e.Number).HasColumnName("Phone"));
             builder.Property(x => x.BranchId);
             builder.Property(x => x.RestaurantName);
             builder.Property(x => x.Description);

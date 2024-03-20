@@ -12,7 +12,6 @@ namespace FoodDelivery.OrderApi.Application.Validations
             RuleFor(command => command.DeliveryAddress).Must(ContainsCommas).WithMessage("Uncorrect address format");
             RuleFor(command => command.PaymentMethod).NotEmpty();
             RuleFor(command => command.Dishes).Must(ContainOrderItems).WithMessage("No order items found");
-            RuleFor(command => command.Dishes).Must(ContainOrderItems).WithMessage("No order items found");
             RuleFor(command => command.OrderTime).Must(TimeInPast).WithMessage("Invalid time");
 
         }
@@ -22,7 +21,7 @@ namespace FoodDelivery.OrderApi.Application.Validations
         }
         private bool ContainsCommas(string address)
         {
-            return address.Split(',').Count() > 4;
+            return address.Split(',').Count() >= 4;
         }
         private bool TimeInPast(DateTime time)
         {

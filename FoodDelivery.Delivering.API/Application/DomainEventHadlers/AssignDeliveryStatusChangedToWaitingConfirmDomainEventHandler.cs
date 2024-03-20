@@ -26,10 +26,15 @@ namespace FoodDelivery.Delivering.API.Application.DomainEventHandlers
         public async Task Handle(AssignDeliveryStatusChangedToWaitingConfirmDomainEvent @event, CancellationToken cancellationToken)
         {
             //DeliveryApiTrace.LogDeliveryStatusUpdated(_logger, @event.Delivery.Id, @event.Delivery.DeliveryStatus);
+            var delivery = await _deliveryRepository.GetByIdAsync(@event.assignDelivery.DeliveryId);
+            if (delivery is null)
+                throw new Exception("Delivery not found");
             
+            // TODO : SignalR Hub message 
 
-            //var integrationEvent = new CourierAssignedIntegrationEvent(@event.Delivery.Id,@event.Delivery.CourierId.Value);
-            //await _deliveryIntegrationEventService.AddAndSaveEventAsync(integrationEvent);
+            var integrationEvent = new AppointCourierForDeliveryIntegrationEvent(@event.assignDelivery.CourierId, delivery.Id, 
+                delivery.SenderAddress.GetFullAddress(),delivery.RecipientAddress.GetFullAddress());
+            await _deliveryIntegrationEventService.AddAndSaveEventAsync(integrationEvent);
 
         }
     }

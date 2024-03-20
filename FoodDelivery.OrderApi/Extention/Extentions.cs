@@ -1,4 +1,5 @@
-﻿using FoodDelivery.OrderApi.Application.IntegrationEvents.EventHandlers;
+﻿using FoodDelivery.Delivering.API.Application.IntegrationEvents.Events;
+using FoodDelivery.OrderApi.Application.IntegrationEvents.EventHandlers;
 using FoodDelivery.OrderApi.Application.IntegrationEvents.Events;
 
 namespace FoodDelivery.OrderApi.Extention
@@ -12,6 +13,9 @@ namespace FoodDelivery.OrderApi.Extention
             eventBus.AddSubscription<OrderPaymentSucceededIntegrationEvent,OrderPaymentSucceededIntegrationEventHandler>();
             eventBus.AddSubscription<OrderRejectedIntegrationEvent,OrderRejectedIntegrationEventHandler>();
             eventBus.AddSubscription<OrderStatusChangedToCreatedIntegrationEvent, OrderStatusChangedToCreatedIntegrationEventHandler>();
+            
+            eventBus.AddSubscription<DeliveryStatusChangedToCanceledIntegrationEvent, OrderCanceledIntegrationEventHandler>();
+            eventBus.AddSubscription<DeliveryStatusChangedToDeliveredIntegrationEvent, OrderDeliveredIntegrationEventHandler>();
         }
     }
 }

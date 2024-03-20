@@ -7,17 +7,20 @@ using FoodDelivery.RestaurantCatalogApi.Domain.AgreagationModels.RestaurantAgrea
 using FoodDelivery.RestaurantCatalogApi.Infrastructure;
 using FoodDelivery.RestaurantCatalogApi.Infrastructure.Extention;
 using FoodDelivery.RestaurantCatalogApi.Infrastructure.Repository.Implementation;
-
+using FoodDelivery.ServiceDefaults;
 
 var builder = WebApplication.CreateBuilder(args);
 
 var services = builder.Services;
+
+builder.AddDefaultOpenApi();
+builder.AddDefaultAuthentication();
+
 builder.Services.AddControllers();
 
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 
 builder.AddAplicationServices();
+
 builder.Services.AddScoped<IRestaurantRepository, RestaurantRepository>();
 builder.Services.AddScoped<IBranchRepository, BranchRepository>();
 builder.Services.AddScoped<IDishAvaibleRepository, DishAvaibleRepository>();
@@ -25,6 +28,7 @@ builder.Services.AddScoped<IDishRepository, DishRepository>();
 builder.Services.AddScoped<IDishTypeRepository, DishTypeRepository>();
 services.AddTransient<IIntegrationEventLogService, IntegrationEventLogService<RestaurantCatalogContext>>();
 services.AddTransient<ICatalogIntegrationEventService, CatalogIntegrationEventService>();
+
 builder.AddRabbitMqEventBus("EventBus")
        .AddEventBusSubscriptions();
 
@@ -38,11 +42,9 @@ services.AddControllersWithViews()
 );
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.UseDefaultOpenApi();
+
+
 using(var scope = app.Services.CreateScope())
 {
     var serviceProvider = scope.ServiceProvider;

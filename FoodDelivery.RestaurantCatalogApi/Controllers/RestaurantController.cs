@@ -2,6 +2,7 @@
 using FoodDelivery.RestaurantCatalogApi.Domain.AgreagationModels.DishAvaibleAgregate;
 using FoodDelivery.RestaurantCatalogApi.Domain.AgreagationModels.RestaurantAgreagate;
 using FoodDelivery.RestaurantCatalogApi.DTOs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FoodDelivery.RestaurantCatalogApi.Controllers
@@ -9,6 +10,7 @@ namespace FoodDelivery.RestaurantCatalogApi.Controllers
 
     [ApiController]
     [Route("api/v1/[controller]")]
+    [Authorize]
     public class RestaurantController : Controller
     {
         private readonly IRestaurantRepository restaurantRepository;

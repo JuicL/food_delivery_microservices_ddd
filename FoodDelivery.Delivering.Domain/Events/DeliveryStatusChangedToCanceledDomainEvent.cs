@@ -1,6 +1,7 @@
-﻿using MediatR;
+﻿using FoodDelivery.Delivering.Domain.AgregationModels.DeliveryAgregate;
+using MediatR;
 
 namespace FoodDelivery.Delivering.Domain.Events
 {
-    public record DeliveryStatusChangedToCanceledDomainEvent(long DeliveryId) : INotification;
+    public record DeliveryStatusChangedToCanceledDomainEvent(Delivery Delivery) : INotification;
 }

@@ -2,5 +2,5 @@
 
 namespace FoodDelivery.Delivering.API.Application.IntegrationEvents.Events
 {
-    public record CourierAgreedToDeliveryIntegrationEvent(long DeliveryId) : IntegrationEvent;
+    public record CourierAgreedToDeliveryIntegrationEvent(long DeliveryId,long CourierId) : IntegrationEvent;
 }

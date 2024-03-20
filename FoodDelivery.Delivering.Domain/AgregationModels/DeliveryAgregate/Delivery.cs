@@ -94,13 +94,13 @@ namespace FoodDelivery.Delivering.Domain.AgregationModels.DeliveryAgregate
         {
             DeliveryStatus = DeliveryStatus.Delivered;
             DeliveredAt = DateTime.UtcNow;
-            AddDomainEvent(new DeliveryStatusChangedToDeliveredDomainEvent(Id));
+            AddDomainEvent(new DeliveryStatusChangedToDeliveredDomainEvent(this));
         }
 
         public void SetCanceledStatus()
         {
             DeliveryStatus = DeliveryStatus.Canceled;
-            AddDomainEvent(new DeliveryStatusChangedToCanceledDomainEvent(Id));
+            AddDomainEvent(new DeliveryStatusChangedToCanceledDomainEvent(this));
         }
 
         #endregion

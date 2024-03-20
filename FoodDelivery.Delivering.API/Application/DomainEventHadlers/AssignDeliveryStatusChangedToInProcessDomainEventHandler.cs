@@ -1,7 +1,9 @@
 ﻿using FoodDelivery.Delivering.API.Application.Commands.CourierCommands;
 using FoodDelivery.Delivering.Application.IntegrationEvents;
+using FoodDelivery.Delivering.Domain.AgregationModels.AssignDeliveryAgregate;
 using FoodDelivery.Delivering.Domain.AgregationModels.DeliveryAgregate;
 using FoodDelivery.Delivering.Domain.Events;
+using FoodDelivery.Delivering.Extention;
 using MediatR;
 
 namespace FoodDelivery.Delivering.API.Application.DomainEventHandlers
@@ -25,16 +27,13 @@ namespace FoodDelivery.Delivering.API.Application.DomainEventHandlers
 
         public async Task Handle(AssignDeliveryStatusChangedToInProcessDomainEvent @event, CancellationToken cancellationToken)
         {
-            //DeliveryApiTrace.LogDeliveryStatusUpdated(_logger, @event.Delivery.Id, @event.Delivery.DeliveryStatus);
+            DeliveryApiTrace.LogAssignDeliveryStatusUpdated(_logger, @event.AssignDelivery.DeliveryId, AssignDeliveryStatus.InProgress);
             
             var setAssignedCourier = new SetAssignedCourierCommand(@event.AssignDelivery.DeliveryId, @event.AssignDelivery.CourierId);
             await _mediator.Send(setAssignedCourier);
 
             var setOnDeliveryCourierStatus = new SetOnDeliveryCourierStatusCommand(@event.AssignDelivery.CourierId);
             await _mediator.Send(setOnDeliveryCourierStatus);
-
-            //var integrationEvent = new CourierAssignedIntegrationEvent(@event.Delivery.Id,@event.Delivery.CourierId.Value);
-            //await _deliveryIntegrationEventService.AddAndSaveEventAsync(integrationEvent);
 
         }
     }
