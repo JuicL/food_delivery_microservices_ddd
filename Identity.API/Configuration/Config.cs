@@ -1,4 +1,4 @@
-﻿namespace eShop.Identity.API.Configuration
+﻿namespace FoodDelivery.Identity.API.Configuration
 {
     public class Config
     {
@@ -44,7 +44,7 @@
                 new Client
                 {
                     ClientId = "xamarin",
-                    ClientName = "eShop Xamarin OpenId Client",
+                    ClientName = "FoodDelivery Xamarin OpenId Client",
                     AllowedGrantTypes = GrantTypes.Hybrid,                    
                     //Used to retrieve the access token on the back channel.
                     ClientSecrets =
@@ -55,7 +55,7 @@
                     RequireConsent = false,
                     RequirePkce = true,
                     PostLogoutRedirectUris = { $"{configuration["XamarinCallback"]}/Account/Redirecting" },
-                    //AllowedCorsOrigins = { "http://eshopxamarin" },
+                    //AllowedCorsOrigins = { "http://FoodDeliveryxamarin" },
                     AllowedScopes = new List<string>
                     {
                         IdentityServerConstants.StandardScopes.OpenId,

@@ -1,4 +1,4 @@
-﻿namespace eShop.Identity.API.Services
+﻿namespace FoodDelivery.Identity.API.Services
 {
     public class RedirectService : IRedirectService
     {

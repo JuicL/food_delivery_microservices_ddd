@@ -1,4 +1,4 @@
-﻿namespace eShop.Identity.API.Models.ManageViewModels
+﻿namespace FoodDelivery.Identity.API.Models.ManageViewModels
 {
     public record ChangePasswordViewModel
     {

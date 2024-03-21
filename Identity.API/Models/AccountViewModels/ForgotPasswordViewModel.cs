@@ -1,4 +1,4 @@
-﻿namespace eShop.Identity.API.Models.AccountViewModels
+﻿namespace FoodDelivery.Identity.API.Models.AccountViewModels
 {
     public record ForgotPasswordViewModel
     {

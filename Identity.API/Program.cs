@@ -2,7 +2,7 @@
 
 builder.AddServiceDefaults();
 
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
 builder.AddNpgsqlDbContext<ApplicationDbContext>("IdentityDB");
 
