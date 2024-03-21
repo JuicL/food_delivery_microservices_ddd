@@ -16,7 +16,7 @@ namespace FoodDelivery.Delivering.API.Application.Services.SignalR
         }
         public async Task AssignDeliveryRequestAsync(string courierId, string deliveryId)
         {
-            await _hubContext.Clients.User(courierId).SendAsync("AssignDeliveryRequest",deliveryId);
+            await _hubContext.Clients.User(courierId).SendAsync("AssignDeliveryRequest", deliveryId);
         }
         
     }

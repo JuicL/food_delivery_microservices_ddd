@@ -34,4 +34,3 @@ namespace FoodDelivery.Delivering.API.Application.Queries
         }
     }
 }
-}

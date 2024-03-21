@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace FoodDelivery.Delivering.API.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/v1/[controller]")]
     public class DeliveryController : Controller
     {
         private readonly ILogger<DeliveryController> _logger;

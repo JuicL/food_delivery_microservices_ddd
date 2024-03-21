@@ -47,15 +47,19 @@ services.AddScoped<IAssignDeliveryRepository, AssignDeliveryRepository>();
 
 services.AddSingleton<AssignDeliveryQueue, AssignDeliveryQueue>();
 
-services.AddHostedService<AssignedDeliveryService>();
 
 services.AddSignalR();
 
 builder.AddRabbitMqEventBus("EventBus")
        .AddEventBusSubscriptions();
 
-var app = builder.Build();
+services.Configure<HostOptions>(x =>{ 
+    x.ServicesStartConcurrently = true;
+    x.ServicesStopConcurrently = false;
+});
+services.AddHostedService<AssignedDeliveryService>();
 
+var app = builder.Build();
 
 
 // Configure the HTTP request pipeline.
@@ -69,7 +73,7 @@ using (var scope = app.Services.CreateScope())
 {
     var serviceProvider = scope.ServiceProvider;
     var context = serviceProvider.GetRequiredService<DeliveryContext>();
-    context.Database.EnsureDeleted();
+    //context.Database.EnsureDeleted();
     context.Database.EnsureCreated();
 }
 app.UseHttpsRedirection();
