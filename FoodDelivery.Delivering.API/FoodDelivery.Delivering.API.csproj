@@ -14,10 +14,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Application\Queries\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\EventBusRabbitMQ\EventBusRabbitMQ.csproj" />
     <ProjectReference Include="..\EventBus\EventBus.csproj" />
     <ProjectReference Include="..\FoodDelivery.Delivering.Domain\FoodDelivery.Delivering.Domain.csproj" />

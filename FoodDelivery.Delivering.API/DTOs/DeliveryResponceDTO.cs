@@ -1,7 +1,9 @@
 ﻿namespace FoodDelivery.Delivering.API.DTOs
 {
-    public record DeliveryRequestDTO(
+    public record DeliveryResponceDTO(
+        long Id,
         long OrderId,
+        long? CourierId,
         long RecipientId,
         string RecipientName,
         string UserPhone,
@@ -12,5 +14,5 @@
         string SenderAddress,
         string RecipientAddress,
         string Description
-        );  
+        );
 }
