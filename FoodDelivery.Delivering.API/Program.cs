@@ -45,7 +45,7 @@ services.AddScoped<IDeliveryRepository, DeliveryRepository>();
 services.AddScoped<ICourierRepository, CourierRepository>();
 services.AddScoped<IAssignDeliveryRepository, AssignDeliveryRepository>();
 
-services.AddSingleton<AssignDeliveryQueue, AssignDeliveryQueue>();
+services.AddSingleton<IAssignDeliveryQueue, AssignDeliveryQueue>();
 
 
 services.AddSignalR();

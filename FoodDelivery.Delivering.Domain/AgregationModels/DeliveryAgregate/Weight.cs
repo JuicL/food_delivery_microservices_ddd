@@ -15,7 +15,7 @@ namespace FoodDelivery.Delivering.Domain.AgregationModels.DeliveryAgregate
 
         protected override IEnumerable<object> GetEqualityComponents()
         {
-            throw new NotImplementedException();
+            yield return Grams;
         }
     }
 }
