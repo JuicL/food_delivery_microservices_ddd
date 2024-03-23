@@ -10,15 +10,16 @@ using FoodDelivery.Delivering.Infrastructure;
 using FoodDelivery.Delivering.Infrastructure.Repositories.Implementation;
 using FoodDelivery.DeliveringAPI.Extentions;
 using Microsoft.EntityFrameworkCore;
+using FoodDelivery.ServiceDefaults;
 
 var builder = WebApplication.CreateBuilder(args);
 
 var services = builder.Services;
+builder.AddDefaultOpenApi();
+builder.AddDefaultAuthentication();
 
 builder.Services.AddControllers();
 
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 services.AddLogging();
 services.AddTransient(typeof(ILogger), typeof(Logger<Program>));
 
@@ -53,21 +54,11 @@ services.AddSignalR();
 builder.AddRabbitMqEventBus("EventBus")
        .AddEventBusSubscriptions();
 
-services.Configure<HostOptions>(x =>{ 
-    x.ServicesStartConcurrently = true;
-    x.ServicesStopConcurrently = false;
-});
 services.AddHostedService<AssignedDeliveryService>();
 
 var app = builder.Build();
+app.UseDefaultOpenApi();
 
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
 
 using (var scope = app.Services.CreateScope())
 {
@@ -80,7 +71,7 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
-app.MapHub<DeliveryHub>("/deliveryHub");
+app.MapHub<DeliveryHub>("/hubs/deliveryHub");
 app.MapControllers();
 
 app.Run();

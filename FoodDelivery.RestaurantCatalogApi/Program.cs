@@ -18,7 +18,6 @@ builder.AddDefaultAuthentication();
 
 builder.Services.AddControllers();
 
-
 builder.AddAplicationServices();
 
 builder.Services.AddScoped<IRestaurantRepository, RestaurantRepository>();
