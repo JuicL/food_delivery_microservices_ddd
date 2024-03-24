@@ -11,7 +11,7 @@ builder.AddNpgsqlDbContext<ApplicationDbContext>("IdentityDB");
 // migrations instead.
 builder.Services.AddMigration<ApplicationDbContext, UsersSeed>();
 
-builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+builder.Services.AddIdentity<ApplicationUser, IdentityRole<long>>()
         .AddEntityFrameworkStores<ApplicationDbContext>()
         .AddDefaultTokenProviders();
 
