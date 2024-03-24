@@ -2,12 +2,6 @@
 
 namespace FoodDelivery.Delivering.API.Application.Services
 {
-    public interface IAssignDeliveryQueue
-    {
-        ValueTask<AssignDeliveryContext> DequeueAsync(CancellationToken cancellationToken);
-        ValueTask EnqueueAsync(AssignDeliveryContext assignDeliveryContext);
-
-    }
     public class AssignDeliveryQueue : IAssignDeliveryQueue
     {
         private readonly Channel<AssignDeliveryContext> _queue;

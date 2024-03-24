@@ -8,7 +8,7 @@ namespace FoodDelivery.Delivering.API.Application.Services.SignalR
     {
         public string GetUserId(HubConnectionContext context)
         {
-            return ((ClaimsIdentity)context.User.Identity).FindFirst(JwtClaimTypes.Subject)?.Value;
+            return ((ClaimsIdentity)context.User.Identity).FindFirst(JwtClaimTypes.PhoneNumber)?.Value;
         }
     }
 }

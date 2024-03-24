@@ -11,6 +11,7 @@ using FoodDelivery.Delivering.Infrastructure.Repositories.Implementation;
 using FoodDelivery.DeliveringAPI.Extentions;
 using Microsoft.EntityFrameworkCore;
 using FoodDelivery.ServiceDefaults;
+using Microsoft.AspNetCore.SignalR;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -47,6 +48,8 @@ services.AddScoped<ICourierRepository, CourierRepository>();
 services.AddScoped<IAssignDeliveryRepository, AssignDeliveryRepository>();
 
 services.AddSingleton<IAssignDeliveryQueue, AssignDeliveryQueue>();
+services.AddSingleton<IUserIdProvider, UserIdProvider>();
+services.AddSingleton<IConnectionMapping<string>, ConnectionMapping<string>>();
 
 
 services.AddSignalR();

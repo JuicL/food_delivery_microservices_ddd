@@ -1,4 +1,5 @@
 ﻿using FoodDelivery.Delivering.API.Application.Commands.CourierCommands;
+using FoodDelivery.Delivering.API.Application.Services.SignalR;
 using FoodDelivery.Delivering.Domain.AgregationModels.AssignDeliveryAgregate;
 using FoodDelivery.Delivering.Domain.AgregationModels.DeliveryAgregate;
 using FoodDelivery.Delivering.Domain.AgregationModels.СouriersAgregate;
@@ -12,15 +13,18 @@ namespace FoodDelivery.Delivering.API.Application.Services
     {
         public AssignedDeliveryService(IServiceProvider serviceProvider,
             IMediator mediator,
-            IAssignDeliveryQueue queue)
+            IAssignDeliveryQueue queue,
+            IDeliverySignalRHubService deliverySignalRHubService)
         {
             _mediator = mediator;
             _serviceProvider = serviceProvider;
             _queue = queue;
+            _deliverySignalRHubService = deliverySignalRHubService;
         }
 
         private readonly IServiceProvider _serviceProvider;
         private readonly IAssignDeliveryQueue _queue;
+        private readonly IDeliverySignalRHubService _deliverySignalRHubService;
         private readonly IMediator _mediator;
         private int _timeout = TimeSpan.FromSeconds(60).Milliseconds;
 
@@ -96,13 +100,8 @@ namespace FoodDelivery.Delivering.API.Application.Services
 
         public async Task AssignDeliveryToCourier(long DeliveryId, long CourierId)
         {
-
-            using var scope = _serviceProvider.CreateScope();
-            var db = scope.ServiceProvider.GetRequiredService<DeliveryContext>();
-
-            var assignDelivery = new AssignDelivery(DeliveryId, CourierId);
-            await db.AddAsync(assignDelivery);
-            await db.SaveChangesAsync();
+            var createAssignDeliveryCommand = new CreateAssignDeliveryCommand(DeliveryId, CourierId);
+            await _mediator.Send(createAssignDeliveryCommand);
         }
 
         public async Task<List<Courier>> GetCouriersForDelivery(Delivery delivery)

@@ -22,6 +22,7 @@ namespace FoodDelivery.Delivering.API.Application.Commands.CourierCommands
                 throw new Exception("Assign delivery not found");
             if (assignDelivery.Status != AssignDeliveryStatus.WaitingConfirm)
                 throw new Exception("Invalid request");
+
             assignDelivery.SetInProcessStatus();
             await _assignDeliveryRepository.UpdateAsync(assignDelivery);
             return await _assignDeliveryRepository.UnitOfWork.SaveEntitiesAsync();
