@@ -56,12 +56,8 @@ namespace FoodDelivery.Delivering.API.Application.Services
                     var db = scope.ServiceProvider.GetRequiredService<DeliveryContext>();
                     var context = state as AssignDeliveryContext;
 
-                    var assignDelivery = await db.AssignDeliveries.Where(x => x.DeliveryId == context.Delivery.Id && x.CourierId == context.CourierId.Value).FirstOrDefaultAsync();
                     var delivery = await db.Deliveries.Where(x=> x.Id == context.Delivery.Id).FirstOrDefaultAsync();
                     if (delivery is null)
-                        return;
-
-                    if (assignDelivery is null)
                         return;
                     //Delivery was not taken of courier
                     if(delivery.DeliveryStatus == DeliveryStatus.Created)
@@ -71,18 +67,6 @@ namespace FoodDelivery.Delivering.API.Application.Services
                         var newCouriers = await GetCouriersForDelivery(delivery);
                         await _queue.EnqueueAsync(new AssignDeliveryContext(delivery, newCouriers.FirstOrDefault()?.Id));
                     }
-
-                    if (false && assignDelivery.Status == AssignDeliveryStatus.WaitingConfirm)
-                    {
-                        assignDelivery.SetMissStatus();
-                        db.AssignDeliveries.Update(assignDelivery);
-                        db.SaveChanges();
-
-                        var newCouriers = await GetCouriersForDelivery(assignDelivery.Delivery);
-                        await _queue.EnqueueAsync(new AssignDeliveryContext(assignDelivery.Delivery, newCouriers.FirstOrDefault()?.Id));
-                    }
-
-
                 },  deliveryContext, _timeout, Timeout.Infinite);
 
             }
@@ -126,11 +110,6 @@ namespace FoodDelivery.Delivering.API.Application.Services
                     .Count())
                 .ToListAsync();
         }
-
-
-        public Task StopAsync(CancellationToken cancellationToken)
-        {
-            return Task.CompletedTask;
-        }
+       
     }
 }
