@@ -67,6 +67,10 @@ namespace FoodDelivery.Delivering.Domain.AgregationModels.DeliveryAgregate
 
         public void AssignCourier(long courierId)
         {
+            if(DeliveryStatus != DeliveryStatus.Created)
+            {
+                StatusChangeException(DeliveryStatus.Assigned);
+            }
             CourierId = courierId;
             DeliveryStatus = DeliveryStatus.Assigned;
             StartDeliveryDateTime = DateTime.UtcNow;
@@ -75,23 +79,39 @@ namespace FoodDelivery.Delivering.Domain.AgregationModels.DeliveryAgregate
 
         public void SetWaitingReceiveStatus()
         {
+            if (DeliveryStatus != DeliveryStatus.Assigned)
+            {
+                StatusChangeException(DeliveryStatus.WaitingReceive);
+            }
             DeliveryStatus = DeliveryStatus.WaitingReceive;
             AddDomainEvent(new DeliveryStatusChangedToWaitingReceiveDomainEvent(Id));
         }
 
         public void SetAcceptedForDeliveryStatus()
         {
+            if (DeliveryStatus != DeliveryStatus.WaitingReceive)
+            {
+                StatusChangeException(DeliveryStatus.AcceptedForDelivery);
+            }
             DeliveryStatus = DeliveryStatus.AcceptedForDelivery;
             AddDomainEvent(new DeliveryStatusChangedToAcceptedForDeliveryDomainEvent(Id));
         }
 
         public void SetArrivedAtDeliveryLocationStatus()
         {
+            if (DeliveryStatus != DeliveryStatus.AcceptedForDelivery)
+            {
+                StatusChangeException(DeliveryStatus.ArrivedAtDeliveryLocation);
+            }
             DeliveryStatus = DeliveryStatus.ArrivedAtDeliveryLocation;
             AddDomainEvent(new DeliveryStatusChangedToArrivedAtDeliveryLocationDomainEvent(Id));
         }
         public void SetDeliveredStatus()
         {
+            if (DeliveryStatus != DeliveryStatus.ArrivedAtDeliveryLocation)
+            {
+                StatusChangeException(DeliveryStatus.Delivered);
+            }
             DeliveryStatus = DeliveryStatus.Delivered;
             DeliveredAt = DateTime.UtcNow;
             AddDomainEvent(new DeliveryStatusChangedToDeliveredDomainEvent(this));
@@ -99,8 +119,16 @@ namespace FoodDelivery.Delivering.Domain.AgregationModels.DeliveryAgregate
 
         public void SetCanceledStatus()
         {
+            if (DeliveryStatus == DeliveryStatus.Delivered)
+            {
+                StatusChangeException(DeliveryStatus.Canceled);
+            }
             DeliveryStatus = DeliveryStatus.Canceled;
             AddDomainEvent(new DeliveryStatusChangedToCanceledDomainEvent(this));
+        }
+        private void StatusChangeException(DeliveryStatus deliveryStatusToChange)
+        {
+            throw new DomainExeption($"Is not possible to change the delivery status from {DeliveryStatus} to {deliveryStatusToChange}.");
         }
 
         #endregion
