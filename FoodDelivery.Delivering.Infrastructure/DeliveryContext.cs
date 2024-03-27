@@ -1,5 +1,5 @@
 ﻿using DDD.Domain.Contracts;
-using FoodDelibery.IntegrationEventLogEF;
+using FoodDelivery.IntegrationEventLogEF;
 using FoodDelivery.Delivering.Domain.AgregationModels.AssignDeliveryAgregate;
 using FoodDelivery.Delivering.Domain.AgregationModels.DeliveryAgregate;
 using FoodDelivery.Delivering.Domain.AgregationModels.СouriersAgregate;

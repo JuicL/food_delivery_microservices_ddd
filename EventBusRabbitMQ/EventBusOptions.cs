@@ -1,4 +1,4 @@
-﻿namespace FoodDelibery.EventBusRabbitMQ;
+﻿namespace FoodDelivery.EventBusRabbitMQ;
 
 public class EventBusOptions
 {

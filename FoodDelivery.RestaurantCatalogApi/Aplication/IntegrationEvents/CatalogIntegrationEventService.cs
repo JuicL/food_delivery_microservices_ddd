@@ -1,10 +1,10 @@
-﻿using FoodDelibery.EventBus.Abstractions;
-using FoodDelibery.EventBus.Events;
-using FoodDelibery.IntegrationEventLogEF.Services;
-using FoodDelibery.IntegrationEventLogEF.Utilities;
+﻿using FoodDelivery.EventBus.Abstractions;
+using FoodDelivery.EventBus.Events;
+using FoodDelivery.IntegrationEventLogEF.Services;
+using FoodDelivery.IntegrationEventLogEF.Utilities;
 using FoodDelivery.RestaurantCatalogApi.Infrastructure;
 
-namespace FoodDelibery.Catalog.API.IntegrationEvents;
+namespace FoodDelivery.Catalog.API.IntegrationEvents;
 
 public sealed class CatalogIntegrationEventService(ILogger<CatalogIntegrationEventService> logger,
     IEventBus eventBus,

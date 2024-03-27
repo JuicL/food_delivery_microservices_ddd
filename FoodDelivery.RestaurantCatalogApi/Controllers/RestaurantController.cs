@@ -7,10 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FoodDelivery.RestaurantCatalogApi.Controllers
 {
-
     [ApiController]
     [Route("api/v1/[controller]")]
-    [Authorize]
     public class RestaurantController : Controller
     {
         private readonly IRestaurantRepository restaurantRepository;

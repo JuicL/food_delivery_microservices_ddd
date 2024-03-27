@@ -1,4 +1,4 @@
-using FoodDelibery.IntegrationEventLogEF.Services;
+using FoodDelivery.IntegrationEventLogEF.Services;
 using FoodDelivery.Delivering.API.Application.Services;
 using FoodDelivery.Delivering.API.Application.Services.SignalR;
 using FoodDelivery.Delivering.Application.Behaviors;

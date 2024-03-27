@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text.Json;
 using System.Text.Json.Serialization.Metadata;
 
-namespace FoodDelibery.EventBus.Abstractions;
+namespace FoodDelivery.EventBus.Abstractions;
 
 public class EventBusSubscriptionInfo
 {

@@ -1,6 +1,6 @@
 ﻿namespace FoodDelivery.Delivering.Application.Behaviors;
 
-using FoodDelibery.EventBus.Extensions;
+using FoodDelivery.EventBus.Extensions;
 using FoodDelivery.Delivering.Application.IntegrationEvents;
 using FoodDelivery.Delivering.Infrastructure;
 using MediatR;

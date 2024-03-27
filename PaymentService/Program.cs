@@ -1,5 +1,5 @@
-using FoodDelibery.PaymentProcessor.IntegrationEvents.EventHandling;
-using FoodDelibery.PaymentProcessor.IntegrationEvents.Events;
+using FoodDelivery.PaymentProcessor.IntegrationEvents.EventHandling;
+using FoodDelivery.PaymentProcessor.IntegrationEvents.Events;
 
 var builder = WebApplication.CreateBuilder(args);
 

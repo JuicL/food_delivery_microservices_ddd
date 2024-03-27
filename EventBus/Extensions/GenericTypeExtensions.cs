@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace FoodDelibery.EventBus.Extensions;
+namespace FoodDelivery.EventBus.Extensions;
 
 public static class GenericTypeExtensions
 {

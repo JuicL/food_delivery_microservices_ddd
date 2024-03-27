@@ -1,4 +1,4 @@
-using FoodDelibery.IntegrationEventLogEF.Services;
+using FoodDelivery.IntegrationEventLogEF.Services;
 using FluentValidation;
 using FoodDelivery.OrderApi.Application.Behaviors;
 using FoodDelivery.OrderApi.Application.Commands;

@@ -1,6 +1,6 @@
-﻿using FoodDelibery.Catalog.API.IntegrationEvents;
-using FoodDelibery.EventBus.Abstractions;
-using FoodDelibery.EventBus.Events;
+﻿using FoodDelivery.Catalog.API.IntegrationEvents;
+using FoodDelivery.EventBus.Abstractions;
+using FoodDelivery.EventBus.Events;
 using FoodDelivery.OrderApi.Application.IntegrationEvents.Events;
 using FoodDelivery.RestaurantCatalogApi.Domain.AgreagationModels.BranchAgregate;
 using FoodDelivery.RestaurantCatalogApi.Domain.AgreagationModels.DishAgregate;

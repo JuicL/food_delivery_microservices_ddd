@@ -1,4 +1,4 @@
-﻿using FoodDelibery.IntegrationEventLogEF;
+﻿using FoodDelivery.IntegrationEventLogEF;
 using FoodDelivery.OrderApi.Domain.AgregationModels.OrderRequestAgregate;
 using FoodDelivery.OrderApi.Domain.AgregationModels.UserAgregate;
 using FoodDelivery.OrderApi.Infrastructure.EntityConfiguration;

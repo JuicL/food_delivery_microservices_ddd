@@ -1,4 +1,4 @@
-﻿namespace FoodDelibery.IntegrationEventLogEF;
+﻿namespace FoodDelivery.IntegrationEventLogEF;
 
 public enum EventStateEnum
 {

@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using OpenTelemetry.Context.Propagation;
 
-namespace FoodDelibery.EventBusRabbitMQ;
+namespace FoodDelivery.EventBusRabbitMQ;
 
 public class RabbitMQTelemetry
 {

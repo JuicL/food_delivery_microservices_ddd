@@ -1,4 +1,4 @@
-﻿using FoodDelibery.EventBus.Events;
+﻿using FoodDelivery.EventBus.Events;
 using FoodDelivery.OrderApi.DTOs;
 
 namespace FoodDelivery.OrderApi.Application.IntegrationEvents.Events;

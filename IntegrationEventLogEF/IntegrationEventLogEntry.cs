@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
-namespace FoodDelibery.IntegrationEventLogEF;
+namespace FoodDelivery.IntegrationEventLogEF;
 
 public class IntegrationEventLogEntry
 {

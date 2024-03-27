@@ -1,5 +1,5 @@
 ﻿
-namespace FoodDelibery.IntegrationEventLogEF;
+namespace FoodDelivery.IntegrationEventLogEF;
 
 public static class IntegrationLogExtensions
 {

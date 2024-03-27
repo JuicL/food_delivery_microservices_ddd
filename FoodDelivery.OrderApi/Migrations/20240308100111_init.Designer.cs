@@ -99,7 +99,7 @@ namespace FoodDelivery.OrderApi.Migrations
                     b.ToTable("User", "dbo");
                 });
 
-            modelBuilder.Entity("FoodDelibery.IntegrationEventLogEF.IntegrationEventLogEntry", b =>
+            modelBuilder.Entity("FoodDelivery.IntegrationEventLogEF.IntegrationEventLogEntry", b =>
                 {
                     b.Property<Guid>("EventId")
                         .ValueGeneratedOnAdd()

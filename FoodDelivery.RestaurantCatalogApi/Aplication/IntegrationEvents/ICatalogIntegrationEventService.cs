@@ -1,6 +1,6 @@
-﻿using FoodDelibery.EventBus.Events;
+﻿using FoodDelivery.EventBus.Events;
 
-namespace FoodDelibery.Catalog.API.IntegrationEvents;
+namespace FoodDelivery.Catalog.API.IntegrationEvents;
 
 public interface ICatalogIntegrationEventService
 {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FoodDelibery.EventBus.Events;
+namespace FoodDelivery.EventBus.Events;
 
 public record IntegrationEvent
 {

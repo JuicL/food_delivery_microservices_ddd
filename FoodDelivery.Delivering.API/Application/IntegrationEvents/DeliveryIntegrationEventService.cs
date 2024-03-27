@@ -1,6 +1,6 @@
-﻿using FoodDelibery.EventBus.Abstractions;
-using FoodDelibery.EventBus.Events;
-using FoodDelibery.IntegrationEventLogEF.Services;
+﻿using FoodDelivery.EventBus.Abstractions;
+using FoodDelivery.EventBus.Events;
+using FoodDelivery.IntegrationEventLogEF.Services;
 using FoodDelivery.Delivering.Infrastructure;
 
 

@@ -1,9 +1,9 @@
-﻿using FoodDelibery.EventBus.Abstractions;
-using FoodDelibery.EventBus.Events;
-using FoodDelibery.PaymentProcessor.IntegrationEvents.Events;
+﻿using FoodDelivery.EventBus.Abstractions;
+using FoodDelivery.EventBus.Events;
+using FoodDelivery.PaymentProcessor.IntegrationEvents.Events;
 using Microsoft.Extensions.Options;
 
-namespace FoodDelibery.PaymentProcessor.IntegrationEvents.EventHandling;
+namespace FoodDelivery.PaymentProcessor.IntegrationEvents.EventHandling;
 
 public class OrderStatusChangedToAvailabilityConfirmedIntegrationEventHandler(
     IEventBus eventBus,

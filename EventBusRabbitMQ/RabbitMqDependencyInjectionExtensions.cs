@@ -1,4 +1,4 @@
-﻿using FoodDelibery.EventBusRabbitMQ;
+﻿using FoodDelivery.EventBusRabbitMQ;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 

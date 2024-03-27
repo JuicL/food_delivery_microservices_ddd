@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace FoodDelibery.IntegrationEventLogEF.Services;
+namespace FoodDelivery.IntegrationEventLogEF.Services;
 
 public interface IIntegrationEventLogService
 {

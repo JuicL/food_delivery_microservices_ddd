@@ -1,4 +1,4 @@
-﻿namespace FoodDelibery.EventBusRabbitMQ;
+﻿namespace FoodDelivery.EventBusRabbitMQ;
 
 using System;
 using System.Collections.Generic;
@@ -19,7 +19,7 @@ public class RabbitMQEventBus(
     IOptions<EventBusSubscriptionInfo> subscriptionOptions,
     RabbitMQTelemetry rabbitMQTelemetry) : IEventBus, IDisposable, IHostedService
 {
-    private const string ExchangeName = "FoodDelibery_event_bus";
+    private const string ExchangeName = "FoodDelivery_event_bus";
 
     private readonly int _retryCount = options.Value.RetryCount;
     private readonly TextMapPropagator _propagator = rabbitMQTelemetry.Propagator;

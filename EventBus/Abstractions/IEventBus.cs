@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace FoodDelibery.EventBus.Abstractions;
+namespace FoodDelivery.EventBus.Abstractions;
 
 public interface IEventBus
 {

@@ -1,5 +1,5 @@
-using FoodDelibery.Catalog.API.IntegrationEvents;
-using FoodDelibery.IntegrationEventLogEF.Services;
+using FoodDelivery.Catalog.API.IntegrationEvents;
+using FoodDelivery.IntegrationEventLogEF.Services;
 using FoodDelivery.RestaurantCatalogApi.Domain.AgreagationModels.BranchAgregate;
 using FoodDelivery.RestaurantCatalogApi.Domain.AgreagationModels.DishAgregate;
 using FoodDelivery.RestaurantCatalogApi.Domain.AgreagationModels.DishAvaibleAgregate;
@@ -46,8 +46,7 @@ app.UseDefaultOpenApi();
 
 using(var scope = app.Services.CreateScope())
 {
-    var serviceProvider = scope.ServiceProvider;
-    var context = serviceProvider.GetRequiredService<RestaurantCatalogContext>();
+    var context = scope.ServiceProvider.GetRequiredService<RestaurantCatalogContext>();
     //context.Database.EnsureDeleted();
 
     context.Database.EnsureCreated();

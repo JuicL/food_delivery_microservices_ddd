@@ -1,4 +1,4 @@
-﻿namespace FoodDelibery.PaymentProcessor;
+﻿namespace FoodDelivery.PaymentProcessor;
 
 public class PaymentOptions
 {

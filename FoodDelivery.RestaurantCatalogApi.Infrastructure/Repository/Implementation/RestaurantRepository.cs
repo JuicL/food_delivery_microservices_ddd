@@ -24,7 +24,7 @@ namespace FoodDelivery.RestaurantCatalogApi.Infrastructure.Repository.Implementa
 
         public async Task<Restaurant> FindByIdAsync(long id, CancellationToken cancellationToken)
         {
-            var restaurant = await db.Restaurants.FindAsync(id);
+            var restaurant = await db.Restaurants.Where(x => x.Id == id).SingleOrDefaultAsync();
             if(restaurant is not null)
             {
                 await db.Entry(restaurant).Collection(x => x.Branches).LoadAsync();

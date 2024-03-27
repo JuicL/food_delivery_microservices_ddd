@@ -1,4 +1,4 @@
-﻿using FoodDelibery.EventBus.Extensions;
+﻿using FoodDelivery.EventBus.Extensions;
 using MediatR;
 
 namespace FoodDelivery.OrderApi.Application.Behaviors;

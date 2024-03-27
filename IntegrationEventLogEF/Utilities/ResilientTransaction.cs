@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace FoodDelibery.IntegrationEventLogEF.Utilities;
+namespace FoodDelivery.IntegrationEventLogEF.Utilities;
 
 public class ResilientTransaction
 {

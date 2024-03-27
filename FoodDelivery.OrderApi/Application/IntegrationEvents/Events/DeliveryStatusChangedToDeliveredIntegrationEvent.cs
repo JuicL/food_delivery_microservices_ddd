@@ -1,6 +1,6 @@
-﻿using FoodDelibery.EventBus.Abstractions;
-using FoodDelibery.EventBus.Events;
-using FoodDelibery.EventBus.Extensions;
+﻿using FoodDelivery.EventBus.Abstractions;
+using FoodDelivery.EventBus.Events;
+using FoodDelivery.EventBus.Extensions;
 using FoodDelivery.OrderApi.Application.Commands;
 using FoodDelivery.OrderApi.Application.IntegrationEvents.Events;
 using MediatR;

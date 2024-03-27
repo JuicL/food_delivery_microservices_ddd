@@ -1,4 +1,4 @@
-﻿using FoodDelibery.IntegrationEventLogEF;
+﻿using FoodDelivery.IntegrationEventLogEF;
 using FoodDelivery.RestaurantCatalogApi.Domain.AgreagationModels.BranchAgregate;
 using FoodDelivery.RestaurantCatalogApi.Domain.AgreagationModels.DishAgregate;
 using FoodDelivery.RestaurantCatalogApi.Domain.AgreagationModels.DishAvaibleAgregate;

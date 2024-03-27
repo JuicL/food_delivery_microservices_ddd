@@ -1,4 +1,4 @@
-﻿using FoodDelibery.EventBus.Extensions;
+﻿using FoodDelivery.EventBus.Extensions;
 using FluentValidation;
 using MediatR;
 

@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-    <RootNamespace>FoodDelibery.EventBus</RootNamespace>
+    <RootNamespace>FoodDelivery.EventBus</RootNamespace>
     <IsAotCompatible>true</IsAotCompatible>
   </PropertyGroup>
 
