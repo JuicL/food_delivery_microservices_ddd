@@ -1,4 +1,5 @@
-﻿using DDD.Domain.Models;
+﻿using DDD.Domain.Exeption;
+using DDD.Domain.Models;
 using FoodDelivery.Delivering.Domain.AgregationModels.DeliveryAgregate;
 using FoodDelivery.Delivering.Domain.AgregationModels.СouriersAgregate;
 using FoodDelivery.Delivering.Domain.Events;
@@ -27,37 +28,44 @@ namespace FoodDelivery.Delivering.Domain.AgregationModels.AssignDeliveryAgregate
 
         public void SetInProcessStatus()
         {
-            if(Status == AssignDeliveryStatus.WaitingConfirm)
+            if (Status != AssignDeliveryStatus.WaitingConfirm)
             {
-                Status = AssignDeliveryStatus.InProgress;
-                AddDomainEvent(new AssignDeliveryStatusChangedToInProcessDomainEvent(this));
+                StatusChangeException(AssignDeliveryStatus.InProgress);
             }
+            Status = AssignDeliveryStatus.InProgress;
+            AddDomainEvent(new AssignDeliveryStatusChangedToInProcessDomainEvent(this));
         }
         public void SetDeliveredStatus()
         {
-            if(Status == AssignDeliveryStatus.InProgress)
+            if (Status != AssignDeliveryStatus.InProgress)
             {
-                Status = AssignDeliveryStatus.Delivered;
-                AddDomainEvent(new AssignDeliveryStatusChangedToDeliveredDomainEvent(this));
-
+                StatusChangeException(AssignDeliveryStatus.Delivered);
             }
+            Status = AssignDeliveryStatus.Delivered;
+            AddDomainEvent(new AssignDeliveryStatusChangedToDeliveredDomainEvent(this));
         }
         public void SetMissStatus()
         {
-            if(Status == AssignDeliveryStatus.WaitingConfirm)
+            if (Status != AssignDeliveryStatus.WaitingConfirm)
             {
-                Status = AssignDeliveryStatus.Miss;
-                AddDomainEvent(new AssignDeliveryStatusChangedToMissDomainEvent(this));
-
+                StatusChangeException(AssignDeliveryStatus.Miss);
             }
+            Status = AssignDeliveryStatus.Miss;
+            AddDomainEvent(new AssignDeliveryStatusChangedToMissDomainEvent(this));
         }
         public void SetCanceledStatus()
         {
-            if(Status == AssignDeliveryStatus.InProgress)
+            if (Status != AssignDeliveryStatus.InProgress)
             {
-                Status = AssignDeliveryStatus.Canceled;
-                AddDomainEvent(new AssignDeliveryStatusChangedToCanceledDomainEvent(this));
+                StatusChangeException(AssignDeliveryStatus.Canceled);
             }
+            Status = AssignDeliveryStatus.Canceled;
+            AddDomainEvent(new AssignDeliveryStatusChangedToCanceledDomainEvent(this));
+        }
+
+        private void StatusChangeException(AssignDeliveryStatus assignDeliveryStatusToChange)
+        {
+            throw new DomainExeption($"Is not possible to change the assign delivery status from {Status} to {assignDeliveryStatusToChange}.");
         }
     }
 }

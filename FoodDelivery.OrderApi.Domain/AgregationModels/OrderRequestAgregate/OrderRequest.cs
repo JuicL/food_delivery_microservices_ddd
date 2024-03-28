@@ -1,4 +1,5 @@
-﻿using FoodDelivery.OrderApi.Domain.AgregationModels.ValueObjects;
+﻿using DDD.Domain.Exeption;
+using FoodDelivery.OrderApi.Domain.AgregationModels.ValueObjects;
 using FoodDelivery.OrderApi.Domain.Events;
 using FoodDelivery.RestaurantCatalogApi.Domain.Models;
 
@@ -7,15 +8,15 @@ namespace FoodDelivery.OrderApi.Domain.AgregationModels.OrderRequestAgregate
     public class OrderRequest : Entity
     {
         private OrderRequest() { }
-        public OrderRequest(int userId, 
+        public OrderRequest(int userId,
             string userName,
             Phone phone,
-            Address deliveryAddress, 
+            Address deliveryAddress,
             int branchId,
             Address restaurantAddress,
-            PaymentMethod paymentMethod, 
+            PaymentMethod paymentMethod,
             DateTime orderTime,
-            string restaurantName, 
+            string restaurantName,
             List<Dishes> dishes,
             string description)
         {
@@ -31,7 +32,7 @@ namespace FoodDelivery.OrderApi.Domain.AgregationModels.OrderRequestAgregate
             RestaurantName = restaurantName;
             _dishes = dishes;
             Description = description;
-            AddDomainEvent(new OrderCreatedDomainEvent(this,userId,userName,phone));
+            AddDomainEvent(new OrderCreatedDomainEvent(this, userId, userName, phone));
         }
 
         public int UserId { get; }
@@ -46,9 +47,9 @@ namespace FoodDelivery.OrderApi.Domain.AgregationModels.OrderRequestAgregate
         public OrderStatus OrderStatus { get; private set; }
         public DateTime OrderTime { get; }
         public IReadOnlyCollection<Dishes> Dishes => _dishes;
-        
+
         private List<Dishes> _dishes;
-        
+
         public void AddDishes(Dishes dishes)
         {
             _dishes.Add(dishes);
@@ -56,57 +57,63 @@ namespace FoodDelivery.OrderApi.Domain.AgregationModels.OrderRequestAgregate
 
         public void SetAwaitingValidationStatus()
         {
-            if(OrderStatus == OrderStatus.Created)
+            if (OrderStatus != OrderStatus.Created)
             {
-                OrderStatus = OrderStatus.AwaitingValidation;
-                AddDomainEvent(new OrderStatusChangedToAwaitingValidationDomainEvent(Id, _dishes));
+                StatusChangeException(OrderStatus.AwaitingValidation);
             }
+            OrderStatus = OrderStatus.AwaitingValidation;
+            AddDomainEvent(new OrderStatusChangedToAwaitingValidationDomainEvent(Id, _dishes));
         }
         public void SetAvailabilityConfirmedStatus()
         {
-            if(OrderStatus == OrderStatus.AwaitingValidation)
+            if (OrderStatus != OrderStatus.AwaitingValidation)
             {
-                OrderStatus = OrderStatus.AvailabilityConfirmed;
-                AddDomainEvent(new OrderStatusChangedToAvailabilityConfirmedDomainEvent(Id));
-
+                StatusChangeException(OrderStatus.AvailabilityConfirmed);
             }
+            OrderStatus = OrderStatus.AvailabilityConfirmed;
+            AddDomainEvent(new OrderStatusChangedToAvailabilityConfirmedDomainEvent(Id));
         }
         public void SetPaidStatus()
         {
-            if (OrderStatus == OrderStatus.AvailabilityConfirmed)
+            if (OrderStatus != OrderStatus.AvailabilityConfirmed)
             {
-                OrderStatus = OrderStatus.Paid;
-                AddDomainEvent(new OrderStatusChangedToPaidDomainEvent(Id));
-
+                StatusChangeException(OrderStatus.Paid);
             }
+            OrderStatus = OrderStatus.Paid;
+            AddDomainEvent(new OrderStatusChangedToPaidDomainEvent(Id));
         }
         public void SetInProcessStatus()
         {
             // Если установлена "Оплата при получении" то не дожидаемся статуса "Оплачено"
-            if (OrderStatus == OrderStatus.AvailabilityConfirmed ||
-                OrderStatus == OrderStatus.Paid)
+            if (OrderStatus != OrderStatus.AvailabilityConfirmed ||
+                OrderStatus != OrderStatus.Paid)
             {
-                OrderStatus = OrderStatus.InProcess;
-                AddDomainEvent(new OrderStatusChangedToInProcessDomainEvent(Id));
-
+                StatusChangeException(OrderStatus.InProcess);
             }
+            OrderStatus = OrderStatus.InProcess;
+            AddDomainEvent(new OrderStatusChangedToInProcessDomainEvent(Id));
         }
         public void SetDeliveredStatus()
         {
-            if (OrderStatus == OrderStatus.InProcess)
+            if (OrderStatus != OrderStatus.InProcess)
             {
-                OrderStatus = OrderStatus.Delivered;
-                AddDomainEvent(new OrderStatusChangedToDeliveredDomainEvent(Id));
-
+                StatusChangeException(OrderStatus.Delivered);
             }
+            OrderStatus = OrderStatus.Delivered;
+            AddDomainEvent(new OrderStatusChangedToDeliveredDomainEvent(Id));
         }
         public void SetCanceleStatus()
         {
-            if (OrderStatus != OrderStatus.Delivered)
+            if (OrderStatus == OrderStatus.Delivered)
             {
-                OrderStatus = OrderStatus.Canceled;
-                AddDomainEvent(new OrderStatusChangedToCanceledDomainEvent(Id));
+                StatusChangeException(OrderStatus.Canceled);
             }
+            OrderStatus = OrderStatus.Canceled;
+            AddDomainEvent(new OrderStatusChangedToCanceledDomainEvent(Id));
+        }
+        private void StatusChangeException(OrderStatus orderStatusToChange)
+        {
+            throw new DomainExeption($"Is not possible to change the order status from {OrderStatus} to {orderStatusToChange}.");
         }
     }
 }
