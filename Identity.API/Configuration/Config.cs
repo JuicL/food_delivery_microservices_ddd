@@ -8,6 +8,7 @@
             return new List<ApiResource>
             {
                 new ApiResource("orders", "Orders Service"),
+                new ApiResource("delivery", "Delivery Service"),
                 new ApiResource("basket", "Basket Service"),
                 new ApiResource("webhooks", "Webhooks registration Service"),
             };
@@ -20,6 +21,7 @@
             return new List<ApiScope>
             {
                 new ApiScope("orders", "Orders Service"),
+                new ApiScope("delivery", "Delivery Service"),
                 new ApiScope("basket", "Basket Service"),
                 new ApiScope("webhooks", "Webhooks registration Service"),
             };
@@ -41,35 +43,6 @@
         {
             return new List<Client>
             {
-                new Client
-                {
-                    ClientId = "xamarin",
-                    ClientName = "FoodDelivery Xamarin OpenId Client",
-                    AllowedGrantTypes = GrantTypes.Hybrid,                    
-                    //Used to retrieve the access token on the back channel.
-                    ClientSecrets =
-                    {
-                        new Secret("secret".Sha256())
-                    },
-                    RedirectUris = { configuration["XamarinCallback"] },
-                    RequireConsent = false,
-                    RequirePkce = true,
-                    PostLogoutRedirectUris = { $"{configuration["XamarinCallback"]}/Account/Redirecting" },
-                    //AllowedCorsOrigins = { "http://FoodDeliveryxamarin" },
-                    AllowedScopes = new List<string>
-                    {
-                        IdentityServerConstants.StandardScopes.OpenId,
-                        IdentityServerConstants.StandardScopes.Profile,
-                        IdentityServerConstants.StandardScopes.OfflineAccess,
-                        "orders",
-                        "basket",
-                        "mobileshoppingagg",
-                        "webhooks"
-                    },
-                    //Allow requesting refresh tokens for long lived API access
-                    AllowOfflineAccess = true,
-                    AllowAccessTokensViaBrowser = true
-                },
                 new Client
                 {
                     ClientId = "webapp",
@@ -100,6 +73,7 @@
                         IdentityServerConstants.StandardScopes.OfflineAccess,
                         "orders",
                         "basket",
+                        "delivery",
                         "webshoppingagg",
                         "webhooks"
                     },
@@ -166,6 +140,21 @@
                     AllowedScopes =
                     {
                         "orders"
+                    }
+                }, 
+                new Client
+                {
+                    ClientId = "deliveringswaggerui",
+                    ClientName = "Delivering Swagger UI",
+                    AllowedGrantTypes = GrantTypes.Implicit,
+                    AllowAccessTokensViaBrowser = true,
+
+                    RedirectUris = { $"{configuration["DeliveringApiClient"]}/swagger/oauth2-redirect.html" },
+                    PostLogoutRedirectUris = { $"{configuration["DeliveringApiClient"]}/swagger/" },
+
+                    AllowedScopes =
+                    {
+                        "delivery"
                     }
                 },
                 new Client

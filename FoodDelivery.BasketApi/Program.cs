@@ -1,12 +1,17 @@
+using FoodDelivery.BasketApi.Grpc;
+using FoodDelivery.BasketApi.Repositories;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+var services = builder.Services;
 
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.AddRedis("redis");
+builder.Services.AddSingleton<IBasketRepository, RedisBasketRepository>();
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
+services.AddGrpc();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -20,6 +25,6 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
-app.MapControllers();
+app.MapGrpcService<BasketService>();
 
 app.Run();
