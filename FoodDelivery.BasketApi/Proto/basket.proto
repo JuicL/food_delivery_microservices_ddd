@@ -2,15 +2,37 @@ syntax = "proto3";
 
 option csharp_namespace = "FoodDelivery.BasketApi.Grpc";
 
+import "google/api/annotations.proto";
+
+
 package BasketApi;
 
 service Basket {
-    rpc GetBasket(GetBasketRequest) returns (CustomerBasketResponse) {}
-    rpc UpdateBasket(UpdateBasketRequest) returns (CustomerBasketResponse) {}
-    rpc DeleteBasket(DeleteBasketRequest) returns (DeleteBasketResponse) {}
+    rpc GetBasket(GetBasketRequest) returns (CustomerBasketResponse) 
+    {
+        option (google.api.http) =
+        {
+            get: "/v1/Basket"
+        };
+    }
+
+    rpc UpdateBasket(UpdateBasketRequest) returns (CustomerBasketResponse) {
+        option (google.api.http) =
+        {
+            post: "/v1/Basket"
+            body: "*"
+        };
+    }
+    rpc DeleteBasket(DeleteBasketRequest) returns (DeleteBasketResponse) {
+        option (google.api.http) =
+        {
+            delete: "/v1/Basket"
+        };
+    }
 }
 
 message GetBasketRequest {
+    string byerId = 1;
 }
 
 message CustomerBasketResponse {
@@ -23,11 +45,14 @@ message BasketItem {
 }
 
 message UpdateBasketRequest {
+    string byerId = 1;
     repeated BasketItem items = 2;
 }
 
 message DeleteBasketRequest {
+    string byerId = 1;
 }
 
 message DeleteBasketResponse {
+    
 }

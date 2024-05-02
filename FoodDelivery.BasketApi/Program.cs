@@ -1,29 +1,29 @@
 using FoodDelivery.BasketApi.Grpc;
 using FoodDelivery.BasketApi.Repositories;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 var services = builder.Services;
 
-builder.AddRedis("redis");
-builder.Services.AddSingleton<IBasketRepository, RedisBasketRepository>();
+services.AddStackExchangeRedisCache(options => { options.Configuration = "127.0.0.1:6379"; });
 
-builder.Services.AddEndpointsApiExplorer();
+services.AddEndpointsApiExplorer();
+
+builder.Services.AddGrpc().AddJsonTranscoding();
+builder.Services.AddGrpcSwagger();
 builder.Services.AddSwaggerGen();
-services.AddGrpc();
+
+services.AddSingleton<IBasketRepository, RedisBasketRepository>();
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+app.UseSwagger();
 if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
+{ 
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
 
 app.MapGrpcService<BasketService>();
 

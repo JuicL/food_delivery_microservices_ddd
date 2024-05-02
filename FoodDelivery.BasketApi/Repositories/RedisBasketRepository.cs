@@ -1,43 +1,37 @@
 ﻿using FoodDelivery.BasketApi.Model;
-using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Caching.Distributed;
 using StackExchange.Redis;
 using System.Text.Json;
 
 namespace FoodDelivery.BasketApi.Repositories
 {
-    public class RedisBasketRepository(IConnectionMultiplexer redis) : IBasketRepository
+    public class RedisBasketRepository(IDistributedCache cache) : IBasketRepository
     {
-        private readonly IDatabase _database = redis.GetDatabase();
         private static RedisKey BasketKeyPrefix = "/basket/"u8.ToArray();
         private static RedisKey GetBasketKey(string userId) => BasketKeyPrefix.Append(userId);
-
+        
         public async Task<CustomerBasket> GetBasketAsync(string customerId)
         {
-            using var data = await _database.StringGetLeaseAsync(GetBasketKey(customerId));
+            var data = await cache.GetStringAsync(GetBasketKey(customerId));
 
             if (data is null || data.Length == 0)
             {
                 return null;
             }
-            return JsonSerializer.Deserialize<CustomerBasket>(data.Span);
+            return JsonSerializer.Deserialize<CustomerBasket>(data);
         }
 
         public async Task<bool> DeleteBasketAsync(string id)
         {
-            return await _database.KeyDeleteAsync(GetBasketKey(id));
+            await cache.RemoveAsync(GetBasketKey(id));
+            return true;
         }
-
 
         public async Task<CustomerBasket> UpdateBasketAsync(CustomerBasket basket)
         {
-            var json = JsonSerializer.SerializeToUtf8Bytes(basket);
-            var created = await _database.StringSetAsync(GetBasketKey(basket.BuyerId), json);
-
-            if (!created)
-            {
-                return null;
-            }
-
+            var json = JsonSerializer.Serialize(basket);
+            await cache.SetStringAsync(GetBasketKey(basket.BuyerId), json);
+           
             return await GetBasketAsync(basket.BuyerId);
         }
     }

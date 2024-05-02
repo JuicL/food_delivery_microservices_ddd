@@ -9,13 +9,12 @@ namespace FoodDelivery.BasketApi.Grpc
     {
         public override async Task<CustomerBasketResponse> GetBasket(GetBasketRequest request, ServerCallContext context)
         {
-            var userId = context.GetUserIdentity();
-            if (string.IsNullOrEmpty(userId))
+            if (string.IsNullOrEmpty(request.ByerId))
             {
                 return new();
             }
 
-            var data = await repository.GetBasketAsync(userId);
+            var data = await repository.GetBasketAsync(request.ByerId);
             if (data is not null)
             {
                 return MapToCustomerBasketResponse(data);
@@ -26,13 +25,7 @@ namespace FoodDelivery.BasketApi.Grpc
 
         public override async Task<CustomerBasketResponse> UpdateBasket(UpdateBasketRequest request, ServerCallContext context)
         {
-            var userId = context.GetUserIdentity();
-            if (string.IsNullOrEmpty(userId))
-            {
-                return new();
-            }
-
-            var customerBasket = MapToCustomerBasket(userId, request);
+            var customerBasket = MapToCustomerBasket(request.ByerId, request);
             var response = await repository.UpdateBasketAsync(customerBasket);
             if (response is null)
             {
