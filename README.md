@@ -1,4 +1,4 @@
-# FoodDelivery- clean architecture project
+# FoodDelivery- Clean architecture project (Backend)
 
 # Technologies
 - :white_check_mark: DDD - Domain-Driven Design
