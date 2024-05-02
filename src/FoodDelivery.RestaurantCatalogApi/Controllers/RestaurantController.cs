@@ -75,13 +75,9 @@ namespace FoodDelivery.RestaurantCatalogApi.Controllers
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
         [HttpGet]
-        public async Task<IActionResult> GetAllAsync(int id, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetAllAsync( CancellationToken cancellationToken)
         {
             var restaurant = await restaurantRepository.GetAllAsync(cancellationToken);
-            if (restaurant is null)
-            {
-                return NotFound($"Restaurant with id {id} not found");
-            }
 
             return Ok(restaurant.Select(x => new RestaurantResponseDTO()
             {
