@@ -3,41 +3,41 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34511.84
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodDelivery.RestaurantCatalogApi", "FoodDelivery.RestaurantCatalogApi\FoodDelivery.RestaurantCatalogApi.csproj", "{75A8EA74-880F-457C-935C-F3AA493C8A23}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodDelivery.RestaurantCatalogApi", "src\FoodDelivery.RestaurantCatalogApi\FoodDelivery.RestaurantCatalogApi.csproj", "{75A8EA74-880F-457C-935C-F3AA493C8A23}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodDelivery.RestaurantCatalogApi.Domain", "FoodDelivery.RestaurantCatalogApi.Domain\FoodDelivery.RestaurantCatalogApi.Domain.csproj", "{D5838005-2E75-4A2B-9C45-67CCDBD047CA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodDelivery.RestaurantCatalogApi.Domain", "src\FoodDelivery.RestaurantCatalogApi.Domain\FoodDelivery.RestaurantCatalogApi.Domain.csproj", "{D5838005-2E75-4A2B-9C45-67CCDBD047CA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodDelivery.RestaurantCatalogApi.Infrastructure", "FoodDelivery.RestaurantCatalogApi.Infrastructure\FoodDelivery.RestaurantCatalogApi.Infrastructure.csproj", "{8E0DBA2F-2B90-461A-B12F-5068260C2D47}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodDelivery.RestaurantCatalogApi.Infrastructure", "src\FoodDelivery.RestaurantCatalogApi.Infrastructure\FoodDelivery.RestaurantCatalogApi.Infrastructure.csproj", "{8E0DBA2F-2B90-461A-B12F-5068260C2D47}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodDelivery.OrderApi", "FoodDelivery.OrderApi\FoodDelivery.OrderApi.csproj", "{775E4199-4E6A-466D-ACE1-EB790CC5C867}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodDelivery.OrderApi", "src\FoodDelivery.OrderApi\FoodDelivery.OrderApi.csproj", "{775E4199-4E6A-466D-ACE1-EB790CC5C867}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodDelivery.OrderApi.Domain", "FoodDelivery.OrderApi.Domain\FoodDelivery.OrderApi.Domain.csproj", "{683102F2-A21E-4B5F-94E9-E72D3BF6C6A6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodDelivery.OrderApi.Domain", "src\FoodDelivery.OrderApi.Domain\FoodDelivery.OrderApi.Domain.csproj", "{683102F2-A21E-4B5F-94E9-E72D3BF6C6A6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodDelivery.OrderApi.Infrastructure", "FoodDelivery.OrderApi.Infrastructure\FoodDelivery.OrderApi.Infrastructure.csproj", "{AAA669E4-745C-43FB-B437-103FEE5F8725}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodDelivery.OrderApi.Infrastructure", "src\FoodDelivery.OrderApi.Infrastructure\FoodDelivery.OrderApi.Infrastructure.csproj", "{AAA669E4-745C-43FB-B437-103FEE5F8725}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PaymentService", "PaymentService\PaymentService.csproj", "{483C5FA5-8467-4CF4-9068-8027D13DF7F2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PaymentService", "src\PaymentService\PaymentService.csproj", "{483C5FA5-8467-4CF4-9068-8027D13DF7F2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventBus", "EventBus\EventBus.csproj", "{22D98464-C081-42D1-956A-FF4EC78E19C9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventBus", "src\EventBus\EventBus.csproj", "{22D98464-C081-42D1-956A-FF4EC78E19C9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventBusRabbitMQ", "EventBusRabbitMQ\EventBusRabbitMQ.csproj", "{5E2C45F4-D9F8-4C00-87DD-8773325DFE2F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventBusRabbitMQ", "src\EventBusRabbitMQ\EventBusRabbitMQ.csproj", "{5E2C45F4-D9F8-4C00-87DD-8773325DFE2F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IntegrationEventLogEF", "IntegrationEventLogEF\IntegrationEventLogEF.csproj", "{25A8D82A-0745-4891-94B3-EDA400223C46}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IntegrationEventLogEF", "src\IntegrationEventLogEF\IntegrationEventLogEF.csproj", "{25A8D82A-0745-4891-94B3-EDA400223C46}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DDDBase", "DDDBase\DDDBase.csproj", "{9974C32F-0024-4A6A-A575-722C13C0C4ED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DDDBase", "src\DDDBase\DDDBase.csproj", "{9974C32F-0024-4A6A-A575-722C13C0C4ED}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodDelivery.BasketApi", "FoodDelivery.BasketApi\FoodDelivery.BasketApi.csproj", "{0EAEA837-18F9-4BE6-9363-EDFCD90757DC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodDelivery.BasketApi", "src\FoodDelivery.BasketApi\FoodDelivery.BasketApi.csproj", "{0EAEA837-18F9-4BE6-9363-EDFCD90757DC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodDelivery.Delivering.Infrastructure", "FoodDelivery.Delivering.Infrastructure\FoodDelivery.Delivering.Infrastructure.csproj", "{45E56BB5-CF69-4875-8BCE-A3E16C34D531}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodDelivery.Delivering.Infrastructure", "src\FoodDelivery.Delivering.Infrastructure\FoodDelivery.Delivering.Infrastructure.csproj", "{45E56BB5-CF69-4875-8BCE-A3E16C34D531}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodDelivery.Delivering.Domain", "FoodDelivery.Delivering.Domain\FoodDelivery.Delivering.Domain.csproj", "{FF040E18-7AD0-4560-B443-FFAF46FB554B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodDelivery.Delivering.Domain", "src\FoodDelivery.Delivering.Domain\FoodDelivery.Delivering.Domain.csproj", "{FF040E18-7AD0-4560-B443-FFAF46FB554B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodDelivery.Delivering.API", "FoodDelivery.Delivering.API\FoodDelivery.Delivering.API.csproj", "{8424DB3C-759D-4B53-BBD6-B1719F2EA62E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodDelivery.Delivering.API", "src\FoodDelivery.Delivering.API\FoodDelivery.Delivering.API.csproj", "{8424DB3C-759D-4B53-BBD6-B1719F2EA62E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodDelivery.ServiceDefaults", "FoodDelivery.ServiceDefaults\FoodDelivery.ServiceDefaults.csproj", "{AC3A5D01-232E-4D7C-9F2F-350ED52DBAAC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodDelivery.ServiceDefaults", "src\FoodDelivery.ServiceDefaults\FoodDelivery.ServiceDefaults.csproj", "{AC3A5D01-232E-4D7C-9F2F-350ED52DBAAC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Identity.API", "Identity.API\Identity.API.csproj", "{DD2C18CC-376D-42C2-8A9D-8D881A038E65}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Identity.API", "src\Identity.API\Identity.API.csproj", "{DD2C18CC-376D-42C2-8A9D-8D881A038E65}"
 EndProject
-Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{2712A71B-B790-44F0-AC45-F54DD3CD0AF5}"
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "src\docker-compose.dcproj", "{2712A71B-B790-44F0-AC45-F54DD3CD0AF5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
