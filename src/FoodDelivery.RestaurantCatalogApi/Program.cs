@@ -43,16 +43,6 @@ var app = builder.Build();
 
 app.UseDefaultOpenApi();
 
-
-using(var scope = app.Services.CreateScope())
-{
-    var context = scope.ServiceProvider.GetRequiredService<RestaurantCatalogContext>();
-    //context.Database.EnsureDeleted();
-
-    context.Database.EnsureCreated();
-    DatabaseInitializer.Initialize(context);
-}
-
 app.UseHttpsRedirection();
 
 app.UseAuthorization();

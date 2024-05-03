@@ -11,7 +11,7 @@ namespace FoodDelivery.RestaurantCatalogApi.Infrastructure.Extention
             builder.Services.AddDbContext<RestaurantCatalogContext>(options =>
             {
                 options.UseNpgsql(builder.Configuration.GetConnectionString("RestaurantApiDatabase"),
-                    b => b.MigrationsAssembly("FoodDelivery.RestaurantCatalogApi"));
+                    b => b.MigrationsAssembly("FoodDelivery.RestaurantCatalogApi.Infrastructure"));
             });
         }
 

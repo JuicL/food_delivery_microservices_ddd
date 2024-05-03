@@ -9,11 +9,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace FoodDelivery.OrderApi.Migrations
+namespace FoodDelivery.OrderApi.Infrastructure.Migrations
 {
     [DbContext(typeof(OrderingContext))]
-    [Migration("20240308100111_init")]
-    partial class init
+    [Migration("20240503124629_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,6 +27,37 @@ namespace FoodDelivery.OrderApi.Migrations
 
             modelBuilder.HasSequence("orderseq")
                 .IncrementsBy(10);
+
+            modelBuilder.Entity("FoodDelivery.IntegrationEventLogEF.IntegrationEventLogEntry", b =>
+                {
+                    b.Property<Guid>("EventId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("EventTypeName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("State")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("TimesSent")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("TransactionId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("EventId");
+
+                    b.ToTable("IntegrationEventLog", "dbo");
+                });
 
             modelBuilder.Entity("FoodDelivery.OrderApi.Domain.AgregationModels.OrderRequestAgregate.Dishes", b =>
                 {
@@ -67,8 +98,16 @@ namespace FoodDelivery.OrderApi.Migrations
                     b.Property<int>("BranchId")
                         .HasColumnType("integer");
 
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<DateTime>("OrderTime")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("RestaurantName")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<int>("UserId")
                         .HasColumnType("integer");
@@ -97,37 +136,6 @@ namespace FoodDelivery.OrderApi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("User", "dbo");
-                });
-
-            modelBuilder.Entity("FoodDelivery.IntegrationEventLogEF.IntegrationEventLogEntry", b =>
-                {
-                    b.Property<Guid>("EventId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Content")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("CreationTime")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("EventTypeName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("State")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("TimesSent")
-                        .HasColumnType("integer");
-
-                    b.Property<Guid>("TransactionId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("EventId");
-
-                    b.ToTable("IntegrationEventLog", "dbo");
                 });
 
             modelBuilder.Entity("FoodDelivery.OrderApi.Domain.AgregationModels.OrderRequestAgregate.Dishes", b =>
@@ -197,6 +205,24 @@ namespace FoodDelivery.OrderApi.Migrations
                             b1.Property<string>("Street")
                                 .IsRequired()
                                 .HasColumnType("text");
+
+                            b1.HasKey("OrderRequestId");
+
+                            b1.ToTable("OrderRequest", "dbo");
+
+                            b1.WithOwner()
+                                .HasForeignKey("OrderRequestId");
+                        });
+
+                    b.OwnsOne("FoodDelivery.OrderApi.Domain.AgregationModels.ValueObjects.Phone", "Phone", b1 =>
+                        {
+                            b1.Property<long>("OrderRequestId")
+                                .HasColumnType("bigint");
+
+                            b1.Property<string>("Number")
+                                .IsRequired()
+                                .HasColumnType("text")
+                                .HasColumnName("Phone");
 
                             b1.HasKey("OrderRequestId");
 
@@ -288,7 +314,34 @@ namespace FoodDelivery.OrderApi.Migrations
                     b.Navigation("PaymentMethod")
                         .IsRequired();
 
+                    b.Navigation("Phone")
+                        .IsRequired();
+
                     b.Navigation("RestaurantAddress")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("FoodDelivery.OrderApi.Domain.AgregationModels.UserAgregate.User", b =>
+                {
+                    b.OwnsOne("FoodDelivery.OrderApi.Domain.AgregationModels.ValueObjects.Phone", "Phone", b1 =>
+                        {
+                            b1.Property<long>("UserId")
+                                .HasColumnType("bigint");
+
+                            b1.Property<string>("Number")
+                                .IsRequired()
+                                .HasColumnType("text")
+                                .HasColumnName("Phone");
+
+                            b1.HasKey("UserId");
+
+                            b1.ToTable("User", "dbo");
+
+                            b1.WithOwner()
+                                .HasForeignKey("UserId");
+                        });
+
+                    b.Navigation("Phone")
                         .IsRequired();
                 });
 

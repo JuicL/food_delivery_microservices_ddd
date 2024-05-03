@@ -4,10 +4,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace FoodDelivery.OrderApi.Migrations
+namespace FoodDelivery.OrderApi.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class Init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -45,10 +45,13 @@ namespace FoodDelivery.OrderApi.Migrations
                     Id = table.Column<long>(type: "bigint", nullable: false),
                     UserId = table.Column<int>(type: "integer", nullable: false),
                     UserName = table.Column<string>(type: "text", nullable: false),
+                    Phone = table.Column<string>(type: "text", nullable: false),
                     DeliveryAddress_Country = table.Column<string>(type: "text", nullable: false),
                     DeliveryAddress_City = table.Column<string>(type: "text", nullable: false),
                     DeliveryAddress_Street = table.Column<string>(type: "text", nullable: false),
                     DeliveryAddress_Home = table.Column<string>(type: "text", nullable: false),
+                    RestaurantName = table.Column<string>(type: "text", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: false),
                     BranchId = table.Column<int>(type: "integer", nullable: false),
                     RestaurantAddress_Country = table.Column<string>(type: "text", nullable: false),
                     RestaurantAddress_City = table.Column<string>(type: "text", nullable: false),
@@ -72,7 +75,8 @@ namespace FoodDelivery.OrderApi.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    UserName = table.Column<string>(type: "text", nullable: false)
+                    UserName = table.Column<string>(type: "text", nullable: false),
+                    Phone = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {

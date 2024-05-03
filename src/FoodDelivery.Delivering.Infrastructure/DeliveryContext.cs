@@ -13,8 +13,9 @@ namespace FoodDelivery.Delivering.Infrastructure
 {
     public class DeliveryContext : DbContext, IUnitOfWork
     {
-        public DeliveryContext(DbContextOptions options) : base(options)
+        public DeliveryContext(DbContextOptions<DeliveryContext> options, IMediator mediator) : base(options)
         {
+            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
         public DbSet<Delivery> Deliveries { get; set; }
         public DbSet<Courier> Couriers { get; set; }

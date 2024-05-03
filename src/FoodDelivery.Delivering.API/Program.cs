@@ -32,14 +32,17 @@ services.AddMediatR(cfg =>
     cfg.AddOpenBehavior(typeof(ValidatorBehavior<,>));
 });
 //services.AddSingleton<IValidator<CreateOrderRequestCommand>, CreateOrderRequestCommandValidator>();
+
 builder.Services.AddDbContext<DeliveryContext>(options =>
 {
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DeliveringApiDatabase"),o =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DeliveringApiDatabase"), o =>
         {
-            o.MigrationsAssembly("FoodDelivery.DeliveringAPI");
-            
+            o.MigrationsAssembly("FoodDelivery.Delivering.Infrastructure");
         });
 });
+
+services.AddTransient<IDeliverySignalRHubService, DeliverySignalRHubService>();
+
 services.AddTransient<IIntegrationEventLogService, IntegrationEventLogService<DeliveryContext>>();
 services.AddTransient<IDeliveryIntegrationEventService, DeliveryIntegrationEventService>();
 
@@ -62,14 +65,6 @@ services.AddHostedService<AssignedDeliveryService>();
 var app = builder.Build();
 app.UseDefaultOpenApi();
 
-
-using (var scope = app.Services.CreateScope())
-{
-    var serviceProvider = scope.ServiceProvider;
-    var context = serviceProvider.GetRequiredService<DeliveryContext>();
-    //context.Database.EnsureDeleted();
-    context.Database.EnsureCreated();
-}
 app.UseHttpsRedirection();
 
 app.UseAuthorization();

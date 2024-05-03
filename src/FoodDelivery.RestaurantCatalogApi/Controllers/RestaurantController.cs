@@ -26,13 +26,17 @@ namespace FoodDelivery.RestaurantCatalogApi.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateAsync(RestaurantRequestDTO restaurantDTO, CancellationToken cancellationToken)
         {
-            await restaurantRepository.CreateAsync(
+            var newRestaurant = await restaurantRepository.CreateAsync(
                 new Restaurant(
                     restaurantDTO.Name,
-                    new List<Branch>()), 
+                    new List<Branch>()),
                 cancellationToken);
             await restaurantRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
-            return Ok(restaurantDTO);
+            return Ok(new RestaurantResponseDTO() 
+            { 
+                Id = newRestaurant.Id,
+                Name = newRestaurant.Name
+            });
         }
 
         /// <summary>

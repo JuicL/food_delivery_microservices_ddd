@@ -10,6 +10,7 @@ using FoodDelivery.OrderApi.Extention;
 using FoodDelivery.OrderApi.Infrastructure;
 using FoodDelivery.OrderApi.Infrastructure.Repository.Implementation;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,7 +37,7 @@ services.AddSingleton<IValidator<CreateOrderRequestCommand>, CreateOrderRequestC
 builder.Services.AddDbContext<OrderingContext>(options =>
 {
     options.UseNpgsql(builder.Configuration.GetConnectionString("OrderingApiDatabase"),
-        b => b.MigrationsAssembly("FoodDelivery.OrderApi"));
+        b => b.MigrationsAssembly("FoodDelivery.OrderApi.Infrastructure"));
 });
 
 
@@ -57,15 +58,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-using (var scope = app.Services.CreateScope())
-{
-    var serviceProvider = scope.ServiceProvider;
-    var context = serviceProvider.GetRequiredService<OrderingContext>();
-    //context.Database.EnsureDeleted();
 
-    context.Database.EnsureCreated();
-    
-}
 app.UseHttpsRedirection();
 
 app.UseAuthorization();

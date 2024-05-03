@@ -8,26 +8,13 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FoodDelivery.RestaurantCatalogApi.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class Init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.EnsureSchema(
                 name: "dbo");
-
-            migrationBuilder.CreateTable(
-                name: "DishAvaiblesStatus",
-                schema: "dbo",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false, defaultValue: 1),
-                    Name = table.Column<string>(type: "text", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_DishAvaiblesStatus", x => x.Id);
-                });
 
             migrationBuilder.CreateTable(
                 name: "DishType",
@@ -40,6 +27,24 @@ namespace FoodDelivery.RestaurantCatalogApi.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_DishType", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "IntegrationEventLog",
+                schema: "dbo",
+                columns: table => new
+                {
+                    EventId = table.Column<Guid>(type: "uuid", nullable: false),
+                    EventTypeName = table.Column<string>(type: "text", nullable: false),
+                    State = table.Column<int>(type: "integer", nullable: false),
+                    TimesSent = table.Column<int>(type: "integer", nullable: false),
+                    CreationTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Content = table.Column<string>(type: "text", nullable: false),
+                    TransactionId = table.Column<Guid>(type: "uuid", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_IntegrationEventLog", x => x.EventId);
                 });
 
             migrationBuilder.CreateTable(
@@ -95,8 +100,7 @@ namespace FoodDelivery.RestaurantCatalogApi.Infrastructure.Migrations
                     Address_Home = table.Column<string>(type: "text", nullable: false),
                     IsAvailable = table.Column<bool>(type: "boolean", nullable: false),
                     opening_time = table.Column<TimeOnly>(type: "time", nullable: false),
-                    closing_time = table.Column<TimeOnly>(type: "time", nullable: false),
-                    RestaurantId1 = table.Column<long>(type: "bigint", nullable: true)
+                    closing_time = table.Column<TimeOnly>(type: "time", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -104,12 +108,6 @@ namespace FoodDelivery.RestaurantCatalogApi.Infrastructure.Migrations
                     table.ForeignKey(
                         name: "FK_Branches_Restaurants_RestaurantId",
                         column: x => x.RestaurantId,
-                        principalSchema: "dbo",
-                        principalTable: "Restaurants",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Branches_Restaurants_RestaurantId1",
-                        column: x => x.RestaurantId1,
                         principalSchema: "dbo",
                         principalTable: "Restaurants",
                         principalColumn: "Id");
@@ -124,7 +122,7 @@ namespace FoodDelivery.RestaurantCatalogApi.Infrastructure.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     DishId = table.Column<long>(type: "bigint", nullable: false),
                     BranchId = table.Column<long>(type: "bigint", nullable: false),
-                    DishAvaibleStatusId = table.Column<int>(type: "integer", nullable: false)
+                    IsAvaible = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -134,13 +132,6 @@ namespace FoodDelivery.RestaurantCatalogApi.Infrastructure.Migrations
                         column: x => x.BranchId,
                         principalSchema: "dbo",
                         principalTable: "Branches",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_DishAvaibles_DishAvaiblesStatus_DishAvaibleStatusId",
-                        column: x => x.DishAvaibleStatusId,
-                        principalSchema: "dbo",
-                        principalTable: "DishAvaiblesStatus",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -159,12 +150,6 @@ namespace FoodDelivery.RestaurantCatalogApi.Infrastructure.Migrations
                 column: "RestaurantId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Branches_RestaurantId1",
-                schema: "dbo",
-                table: "Branches",
-                column: "RestaurantId1");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Dish_DishTypeId",
                 schema: "dbo",
                 table: "Dish",
@@ -177,16 +162,11 @@ namespace FoodDelivery.RestaurantCatalogApi.Infrastructure.Migrations
                 column: "BranchId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DishAvaibles_DishAvaibleStatusId",
+                name: "IX_DishAvaibles_DishId_BranchId",
                 schema: "dbo",
                 table: "DishAvaibles",
-                column: "DishAvaibleStatusId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_DishAvaibles_DishId",
-                schema: "dbo",
-                table: "DishAvaibles",
-                column: "DishId");
+                columns: new[] { "DishId", "BranchId" },
+                unique: true);
         }
 
         /// <inheritdoc />
@@ -197,11 +177,11 @@ namespace FoodDelivery.RestaurantCatalogApi.Infrastructure.Migrations
                 schema: "dbo");
 
             migrationBuilder.DropTable(
-                name: "Branches",
+                name: "IntegrationEventLog",
                 schema: "dbo");
 
             migrationBuilder.DropTable(
-                name: "DishAvaiblesStatus",
+                name: "Branches",
                 schema: "dbo");
 
             migrationBuilder.DropTable(

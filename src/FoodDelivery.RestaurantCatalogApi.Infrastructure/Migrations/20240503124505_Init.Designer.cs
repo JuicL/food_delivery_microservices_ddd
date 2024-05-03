@@ -10,11 +10,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace FoodDelivery.RestaurantCatalogApi.Migrations
+namespace FoodDelivery.RestaurantCatalogApi.Infrastructure.Migrations
 {
     [DbContext(typeof(RestaurantCatalogContext))]
-    [Migration("20240308100232_init1")]
-    partial class init1
+    [Migration("20240503124505_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,6 +25,37 @@ namespace FoodDelivery.RestaurantCatalogApi.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("FoodDelivery.IntegrationEventLogEF.IntegrationEventLogEntry", b =>
+                {
+                    b.Property<Guid>("EventId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("EventTypeName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("State")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("TimesSent")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("TransactionId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("EventId");
+
+                    b.ToTable("IntegrationEventLog", "dbo");
+                });
 
             modelBuilder.Entity("FoodDelivery.RestaurantCatalogApi.Domain.AgreagationModels.BranchAgregate.Branch", b =>
                 {
@@ -130,37 +161,6 @@ namespace FoodDelivery.RestaurantCatalogApi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Restaurants", "dbo");
-                });
-
-            modelBuilder.Entity("FoodDelivery.IntegrationEventLogEF.IntegrationEventLogEntry", b =>
-                {
-                    b.Property<Guid>("EventId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Content")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("CreationTime")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("EventTypeName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("State")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("TimesSent")
-                        .HasColumnType("integer");
-
-                    b.Property<Guid>("TransactionId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("EventId");
-
-                    b.ToTable("IntegrationEventLog", "dbo");
                 });
 
             modelBuilder.Entity("FoodDelivery.RestaurantCatalogApi.Domain.AgreagationModels.BranchAgregate.Branch", b =>

@@ -23,6 +23,37 @@ namespace FoodDelivery.RestaurantCatalogApi.Infrastructure.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("FoodDelivery.IntegrationEventLogEF.IntegrationEventLogEntry", b =>
+                {
+                    b.Property<Guid>("EventId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("EventTypeName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("State")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("TimesSent")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("TransactionId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("EventId");
+
+                    b.ToTable("IntegrationEventLog", "dbo");
+                });
+
             modelBuilder.Entity("FoodDelivery.RestaurantCatalogApi.Domain.AgreagationModels.BranchAgregate.Branch", b =>
                 {
                     b.Property<long>("Id")
@@ -37,14 +68,9 @@ namespace FoodDelivery.RestaurantCatalogApi.Infrastructure.Migrations
                     b.Property<long>("RestaurantId")
                         .HasColumnType("bigint");
 
-                    b.Property<long?>("RestaurantId1")
-                        .HasColumnType("bigint");
-
                     b.HasKey("Id");
 
                     b.HasIndex("RestaurantId");
-
-                    b.HasIndex("RestaurantId1");
 
                     b.ToTable("Branches", "dbo");
                 });
@@ -101,36 +127,20 @@ namespace FoodDelivery.RestaurantCatalogApi.Infrastructure.Migrations
                     b.Property<long>("BranchId")
                         .HasColumnType("bigint");
 
-                    b.Property<int>("DishAvaibleStatusId")
-                        .HasColumnType("integer");
-
                     b.Property<long>("DishId")
                         .HasColumnType("bigint");
+
+                    b.Property<bool>("IsAvaible")
+                        .HasColumnType("boolean");
 
                     b.HasKey("Id");
 
                     b.HasIndex("BranchId");
 
-                    b.HasIndex("DishAvaibleStatusId");
-
-                    b.HasIndex("DishId");
+                    b.HasIndex("DishId", "BranchId")
+                        .IsUnique();
 
                     b.ToTable("DishAvaibles", "dbo");
-                });
-
-            modelBuilder.Entity("FoodDelivery.RestaurantCatalogApi.Domain.AgreagationModels.DishAvaibleAgregate.DishAvaibleStatus", b =>
-                {
-                    b.Property<int>("Id")
-                        .HasColumnType("integer")
-                        .HasDefaultValue(1);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("DishAvaiblesStatus", "dbo");
                 });
 
             modelBuilder.Entity("FoodDelivery.RestaurantCatalogApi.Domain.AgreagationModels.RestaurantAgreagate.Restaurant", b =>
@@ -153,14 +163,10 @@ namespace FoodDelivery.RestaurantCatalogApi.Infrastructure.Migrations
             modelBuilder.Entity("FoodDelivery.RestaurantCatalogApi.Domain.AgreagationModels.BranchAgregate.Branch", b =>
                 {
                     b.HasOne("FoodDelivery.RestaurantCatalogApi.Domain.AgreagationModels.RestaurantAgreagate.Restaurant", "Restaurant")
-                        .WithMany()
+                        .WithMany("Branches")
                         .HasForeignKey("RestaurantId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
-
-                    b.HasOne("FoodDelivery.RestaurantCatalogApi.Domain.AgreagationModels.RestaurantAgreagate.Restaurant", null)
-                        .WithMany("Branches")
-                        .HasForeignKey("RestaurantId1");
 
                     b.OwnsOne("FoodDelivery.RestaurantCatalogApi.Domain.AgreagationModels.BranchAgregate.Address", "Address", b1 =>
                         {
@@ -280,12 +286,6 @@ namespace FoodDelivery.RestaurantCatalogApi.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("FoodDelivery.RestaurantCatalogApi.Domain.AgreagationModels.DishAvaibleAgregate.DishAvaibleStatus", "Status")
-                        .WithMany()
-                        .HasForeignKey("DishAvaibleStatusId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("FoodDelivery.RestaurantCatalogApi.Domain.AgreagationModels.DishAgregate.Dish", "Dish")
                         .WithMany()
                         .HasForeignKey("DishId")
@@ -295,8 +295,6 @@ namespace FoodDelivery.RestaurantCatalogApi.Infrastructure.Migrations
                     b.Navigation("Branch");
 
                     b.Navigation("Dish");
-
-                    b.Navigation("Status");
                 });
 
             modelBuilder.Entity("FoodDelivery.RestaurantCatalogApi.Domain.AgreagationModels.BranchAgregate.Branch", b =>
