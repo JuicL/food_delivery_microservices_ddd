@@ -18,11 +18,9 @@ var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
 builder.AddDefaultOpenApi();
 builder.AddDefaultAuthentication();
+builder.AddSerilog();
 
 builder.Services.AddControllers();
-
-services.AddLogging();
-services.AddTransient(typeof(ILogger), typeof(Logger<Program>));
 
 services.AddMediatR(cfg =>
 {

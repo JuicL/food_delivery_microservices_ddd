@@ -28,7 +28,6 @@ namespace FoodDelivery.OrderApi.Application.Commands
             }
 
             await orderRequestRepository.CreateAsync(order);
-
             await orderRequestRepository.UnitOfWork.SaveEntitiesAsync();
             return order.Id;
         }

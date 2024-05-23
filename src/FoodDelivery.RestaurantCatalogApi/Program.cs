@@ -8,6 +8,7 @@ using FoodDelivery.RestaurantCatalogApi.Infrastructure;
 using FoodDelivery.RestaurantCatalogApi.Infrastructure.Extention;
 using FoodDelivery.RestaurantCatalogApi.Infrastructure.Repository.Implementation;
 using FoodDelivery.ServiceDefaults;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,16 +16,21 @@ var services = builder.Services;
 
 builder.AddDefaultOpenApi();
 builder.AddDefaultAuthentication();
-
-builder.Services.AddControllers();
-
 builder.AddAplicationServices();
 
-builder.Services.AddScoped<IRestaurantRepository, RestaurantRepository>();
-builder.Services.AddScoped<IBranchRepository, BranchRepository>();
-builder.Services.AddScoped<IDishAvaibleRepository, DishAvaibleRepository>();
-builder.Services.AddScoped<IDishRepository, DishRepository>();
-builder.Services.AddScoped<IDishTypeRepository, DishTypeRepository>();
+
+//var logger = new LoggerConfiguration()
+//    .ReadFrom.Configuration(builder.Configuration)
+//    .CreateLogger();
+builder.AddSerilog();
+
+services.AddControllers();
+
+services.AddScoped<IRestaurantRepository, RestaurantRepository>();
+services.AddScoped<IBranchRepository, BranchRepository>();
+services.AddScoped<IDishAvaibleRepository, DishAvaibleRepository>();
+services.AddScoped<IDishRepository, DishRepository>();
+services.AddScoped<IDishTypeRepository, DishTypeRepository>();
 services.AddTransient<IIntegrationEventLogService, IntegrationEventLogService<RestaurantCatalogContext>>();
 services.AddTransient<ICatalogIntegrationEventService, CatalogIntegrationEventService>();
 
@@ -35,6 +41,7 @@ services.AddMediatR(cfg =>
 {
     cfg.RegisterServicesFromAssemblyContaining(typeof(Program));
 });
+
 services.AddControllersWithViews()
     .AddNewtonsoftJson(options =>
     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore

@@ -2,7 +2,6 @@
 using FoodDelivery.RestaurantCatalogApi.Domain.AgreagationModels.DishAvaibleAgregate;
 using FoodDelivery.RestaurantCatalogApi.Domain.AgreagationModels.RestaurantAgreagate;
 using FoodDelivery.RestaurantCatalogApi.DTOs;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FoodDelivery.RestaurantCatalogApi.Controllers
@@ -26,17 +25,24 @@ namespace FoodDelivery.RestaurantCatalogApi.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateAsync(RestaurantRequestDTO restaurantDTO, CancellationToken cancellationToken)
         {
-            var newRestaurant = await restaurantRepository.CreateAsync(
-                new Restaurant(
-                    restaurantDTO.Name,
-                    new List<Branch>()),
-                cancellationToken);
-            await restaurantRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
-            return Ok(new RestaurantResponseDTO() 
-            { 
-                Id = newRestaurant.Id,
-                Name = newRestaurant.Name
-            });
+            try
+            {
+                var newRestaurant = await restaurantRepository.CreateAsync(
+                    new Restaurant(
+                        restaurantDTO.Name,
+                        new List<Branch>()),
+                    cancellationToken);
+                await restaurantRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
+                return Ok(new RestaurantResponseDTO()
+                {
+                    Id = newRestaurant.Id,
+                    Name = newRestaurant.Name
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Error while creating restaurant {ex.Message}");
+            }
         }
 
         /// <summary>
@@ -99,6 +105,7 @@ namespace FoodDelivery.RestaurantCatalogApi.Controllers
             }).ToList()
             );
         }
+
         [HttpPut]
         public async Task<IActionResult> UpdateAsync(RestaurantRequestDTO restaurant, CancellationToken cancellationToken)
         {
@@ -107,10 +114,17 @@ namespace FoodDelivery.RestaurantCatalogApi.Controllers
             {
                 return NotFound($"Restaurant with id {restaurant.Id} not found");
             }
-            updatedRestaurant.ChangeName(restaurant.Name);
-            await restaurantRepository.UpdateAsync(updatedRestaurant, cancellationToken);
-            await restaurantRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
-            return Ok(restaurant);
+            try
+            {
+                updatedRestaurant.ChangeName(restaurant.Name);
+                await restaurantRepository.UpdateAsync(updatedRestaurant, cancellationToken);
+                await restaurantRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
+                return Ok("Succsesful");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Error while updating restaurant {ex.Message}");
+            }
         }
     }
 }

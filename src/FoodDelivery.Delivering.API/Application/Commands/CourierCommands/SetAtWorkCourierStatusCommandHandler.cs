@@ -18,7 +18,7 @@ namespace FoodDelivery.Delivering.API.Application.Commands.CourierCommands
             if (courier is null)
                 throw new Exception("Courier not found");
 
-            courier.SetAtWorkStatus(request.WorkAddress);
+            courier.SetAtWorkStatus(WorkAddress.Parse(request.WorkAddress));
 
             await _courierRepository.UpdateAsync(courier);
             return await _courierRepository.UnitOfWork.SaveEntitiesAsync();

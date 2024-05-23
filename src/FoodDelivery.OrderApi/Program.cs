@@ -10,19 +10,18 @@ using FoodDelivery.OrderApi.Extention;
 using FoodDelivery.OrderApi.Infrastructure;
 using FoodDelivery.OrderApi.Infrastructure.Repository.Implementation;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
+using FoodDelivery.ServiceDefaults;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+builder.AddSerilog();
+
 var services = builder.Services;
-builder.Services.AddControllers();
 
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-services.AddLogging();
+services.AddControllers();
+services.AddEndpointsApiExplorer();
+services.AddSwaggerGen();
 
-services.AddTransient(typeof(ILogger), typeof(Logger<Program>));
 
 services.AddMediatR(cfg =>
 {
@@ -34,7 +33,7 @@ services.AddMediatR(cfg =>
 
 services.AddSingleton<IValidator<CreateOrderRequestCommand>, CreateOrderRequestCommandValidator>();
 
-builder.Services.AddDbContext<OrderingContext>(options =>
+services.AddDbContext<OrderingContext>(options =>
 {
     options.UseNpgsql(builder.Configuration.GetConnectionString("OrderingApiDatabase"),
         b => b.MigrationsAssembly("FoodDelivery.OrderApi.Infrastructure"));

@@ -25,9 +25,17 @@ namespace FoodDelivery.Delivering.API.Controllers
         [Route("atWork")]
         public async Task<IActionResult> AtWork(long courierId, string workAddress)
         {
-            var command = new SetAtWorkCourierStatusCommand(courierId,WorkAddress.Parse(workAddress));
-            bool result = await _mediator.Send(command);
-            return result ? Ok() : BadRequest();
+            var command = new SetAtWorkCourierStatusCommand(courierId,workAddress);
+            try
+            {
+                bool result = await _mediator.Send(command);
+                return result ? Ok() : BadRequest();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Error while set at work status. {ex.Message}");
+            }
+            
         }
         //WorkOff
         [HttpPost]
@@ -35,8 +43,16 @@ namespace FoodDelivery.Delivering.API.Controllers
         public async Task<IActionResult> WorkOff(long courierId)
         {
             var command = new SetWorkOffCourierStatusCommand(courierId);
-            bool result = await _mediator.Send(command);
-            return result ? Ok() : BadRequest();
+            try
+            {
+                bool result = await _mediator.Send(command);
+                return result ? Ok() : BadRequest();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Error while set work off status. {ex.Message}");
+            }
+
         }
         //CancelDelivery
         [HttpPost]
@@ -44,8 +60,15 @@ namespace FoodDelivery.Delivering.API.Controllers
         public async Task<IActionResult> CancelDelivery(long deliveryId)
         {
             var command = new SetCanceledStatusCommand(deliveryId);
-            bool result = await _mediator.Send(command);
-            return result ? Ok() : BadRequest();
+            try
+            {
+                bool result = await _mediator.Send(command);
+                return result ? Ok() : BadRequest();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Error while canceling delivery. {ex.Message}");
+            }
         }
 
         //AcceptDelivery
@@ -54,8 +77,16 @@ namespace FoodDelivery.Delivering.API.Controllers
         public async Task<IActionResult> AcceptDelivery(long courierId, long deliveryId)
         {
             var command = new AcceptDeliveryCommand(deliveryId,courierId);
-            bool result = await _mediator.Send(command);
-            return result ? Ok() : BadRequest();
+            try
+            {
+                bool result = await _mediator.Send(command);
+                return result ? Ok() : BadRequest();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Error while accepting delivery. {ex.Message}");
+            }
+            
         }
         //AtPlaceReceipt
         [HttpPost]
@@ -63,8 +94,15 @@ namespace FoodDelivery.Delivering.API.Controllers
         public async Task<IActionResult> AtPlaceReceipt(long deliveryId)
         {
             var command = new SetWaitingReceiveDeliveryStatusCommand(deliveryId);
-            bool result = await _mediator.Send(command);
-            return result ? Ok() : BadRequest();
+            try
+            {
+                bool result = await _mediator.Send(command);
+                return result ? Ok() : BadRequest();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Error while while set at place delivery status. {ex.Message}");
+            }
         }
         //AcceptForDelivery
         [HttpPost]
@@ -72,8 +110,15 @@ namespace FoodDelivery.Delivering.API.Controllers
         public async Task<IActionResult> AcceptForDelivery(long deliveryId)
         {
             var command = new SetAcceptedForDeliveryStatusCommand(deliveryId);
-            bool result = await _mediator.Send(command);
-            return result ? Ok() : BadRequest();
+            try
+            {
+                bool result = await _mediator.Send(command);
+                return result ? Ok() : BadRequest();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Error while set accept for delivering status. {ex.Message}");
+            }
         }
         //AtDeliveryPlace
         [HttpPost]
@@ -81,8 +126,15 @@ namespace FoodDelivery.Delivering.API.Controllers
         public async Task<IActionResult> AtDeliveryPlace(long deliveryId)
         {
             var command = new SetArrivedAtDeliveryLocationStatusCommand(deliveryId);
-            bool result = await _mediator.Send(command);
-            return result ? Ok() : BadRequest();
+            try
+            {
+                bool result = await _mediator.Send(command);
+                return result ? Ok() : BadRequest();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Error while set at destination place delivery status. {ex.Message}");
+            }
         }
         //Delivered
         [HttpPost]
@@ -90,8 +142,15 @@ namespace FoodDelivery.Delivering.API.Controllers
         public async Task<IActionResult> Delivered(long deliveryId)
         {
             var command = new SetDeliveredStatusCommand(deliveryId);
-            bool result = await _mediator.Send(command);
-            return result ? Ok() : BadRequest();
+            try
+            {
+                bool result = await _mediator.Send(command);
+                return result ? Ok() : BadRequest();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Error while set delivered status. {ex.Message}");
+            }
         }
 
         //GetAllAssignedDeliveries

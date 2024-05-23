@@ -27,14 +27,21 @@ namespace FoodDelivery.RestaurantCatalogApi.Controllers
             {
                 throw new Exception("Restaurant not found");
             }
-            await branchRepository.CreateAsync(
-                new Branch(restaurant,
-                    Address.Parse(branch.Address),
-                    new WorkingHours(branch.OpenningTime, branch.ClosingTime),
-                    branch.IsAvaible, new List<DishAvaible>()),
-                cancellationToken);
-            await branchRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
-            return Ok(branch);
+            try
+            {
+                var createdBranch = await branchRepository.CreateAsync(
+                    new Branch(restaurant,
+                        Address.Parse(branch.Address),
+                        new WorkingHours(branch.OpenningTime, branch.ClosingTime),
+                        branch.IsAvaible, new List<DishAvaible>()),
+                    cancellationToken);
+                await branchRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
+                return Ok(createdBranch.Id);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Error while creating branch. {ex.Message}");
+            }
         }
         [HttpGet]
         [Route("{id}")]
@@ -100,11 +107,19 @@ namespace FoodDelivery.RestaurantCatalogApi.Controllers
             var updatedBranch = await branchRepository.FindByIdAsync(branch.Id, cancellationToken);
             if(updatedBranch is null)
                 return NotFound("Branch not found");
-            updatedBranch.ChangeAddress(Address.Parse(branch.Address));
-            updatedBranch.ChangeAvaibleStatus(branch.IsAvaible);
-            updatedBranch.ChangeWorkingHours(new WorkingHours(branch.OpenningTime, branch.ClosingTime));
-            await branchRepository.UnitOfWork.SaveChangesAsync();
-            return Ok(branch);
+            try
+            {
+                updatedBranch.ChangeAddress(Address.Parse(branch.Address));
+                updatedBranch.ChangeAvaibleStatus(branch.IsAvaible);
+                updatedBranch.ChangeWorkingHours(new WorkingHours(branch.OpenningTime, branch.ClosingTime));
+                await branchRepository.UnitOfWork.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Error while updating branch. {ex.Message}");
+            }
+            
+            return Ok();
         }
     }
 }

@@ -31,21 +31,26 @@ namespace FoodDelivery.OrderApi.Controllers
             var createCommand = new CreateOrderRequestCommand(
                 orderRequest.UserId,
                 orderRequest.UserName,
-                orderRequest.Phone, 
+                orderRequest.Phone,
                 orderRequest.DeliveryAddress,
                 orderRequest.RestaurantName,
                 orderRequest.BranchId,
-                orderRequest.RestaurantAddress, 
+                orderRequest.RestaurantAddress,
                 orderRequest.PaymentMethod,
                 orderRequest.OrderTime,
                 orderRequest.Dishes,
                 orderRequest.Description);
-
-            var result = await _mediator.Send(createCommand);
-            if (result == 0)
-                return BadRequest("Something gonna wrong");
-            
-            return Ok(new { Id = result });
+            try
+            {
+                var result = await _mediator.Send(createCommand);
+                if (result == 0)
+                    return BadRequest("Something gonna wrong");
+                return Ok(new { Id = result });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Error while creating order request {ex.Message}");
+            }
         }
 
         [HttpPost]
@@ -53,8 +58,15 @@ namespace FoodDelivery.OrderApi.Controllers
         public async Task<IActionResult> CancelAsync([FromQuery] long orderId)
         {
             var cancelCommand = new SetCanceledOrderStatusCommand(orderId);
-            var result = await _mediator.Send(cancelCommand);
-            return Ok(result);
+            try
+            {
+                var result = await _mediator.Send(cancelCommand);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Error while canceling order request {ex.Message}");
+            }
         } 
         
         [HttpGet]
@@ -62,8 +74,17 @@ namespace FoodDelivery.OrderApi.Controllers
         public async Task<IActionResult> GetOrederById([FromQuery] long orderId)
         {
             var getQuery = new GetOrderRequestByIdQuery(orderId);
-            var result = await _mediator.Send(getQuery);
-            return Ok(result);
+            try
+            {
+                var result = await _mediator.Send(getQuery);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Something gonna wrong {ex.Message}");
+
+            }
+
         }
     }
 }

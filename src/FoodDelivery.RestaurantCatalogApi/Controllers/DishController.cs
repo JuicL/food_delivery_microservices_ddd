@@ -15,12 +15,14 @@ namespace FoodDelivery.RestaurantCatalogApi.Controllers
         private readonly IBranchRepository _branchRepository;
         private readonly IRestaurantRepository _restaurantRepository;
         private readonly IDishTypeRepository _dishTypeRepository;
-        public DishController(IDishRepository dishRepository, IBranchRepository branchRepository, IRestaurantRepository restaurantRepository, IDishTypeRepository dishTypeRepository)
+        private ILogger<DishController> _logger;
+        public DishController(IDishRepository dishRepository, IBranchRepository branchRepository, IRestaurantRepository restaurantRepository, IDishTypeRepository dishTypeRepository, ILogger<DishController> logger)
         {
             _dishRepository = dishRepository;
             _branchRepository = branchRepository;
             _restaurantRepository = restaurantRepository;
             _dishTypeRepository = dishTypeRepository;
+            _logger = logger;
         }
 
         #region Create
@@ -29,21 +31,27 @@ namespace FoodDelivery.RestaurantCatalogApi.Controllers
         public async Task<IActionResult> CreateAsync(DishResponseDTO dishDTO, CancellationToken cancellationToken)
         {
             var dishType = await _dishTypeRepository.GetByName(dishDTO.DishType,cancellationToken);
-
+            _logger.LogInformation("Test log info {1}", "TestArgs");
             if (dishType is null)
                 return NotFound($"Dish type: {dishDTO.DishType} not found");
+            try
+            {
+                var dish = new Dish(
+                    dishDTO.Name,
+                    Weight.CreateFromGram(dishDTO.Weight),
+                    new Price(dishDTO.Price),
+                    dishType,
+                    dishDTO.Ingredients is null ? new() : dishDTO.Ingredients
+                    );
+                await _dishRepository.CreateAsync(dish, cancellationToken);
+                await _dishRepository.UnitOfWork.SaveChangesAsync();
 
-            var dish = new Dish(
-                dishDTO.Name,
-                Weight.CreateFromGram(dishDTO.Weight),
-                new Price(dishDTO.Price),
-                dishType,
-                dishDTO.Ingredients is null ? new() : dishDTO.Ingredients
-                );
-            await _dishRepository.CreateAsync(dish, cancellationToken);
-            await _dishRepository.UnitOfWork.SaveChangesAsync();
-
-            return Ok(dishDTO);
+                return Ok(dish.Id);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Error while creating Dish.{ex.Message}");
+            }
         }
         [HttpPost]
         [Route("branch/{id}")]
@@ -56,42 +64,49 @@ namespace FoodDelivery.RestaurantCatalogApi.Controllers
             var dishType = await _dishTypeRepository.GetByName(dishDTO.DishType, cancellationToken);
             if (dishType is null)
                 return NotFound($"Dish type: {dishDTO.DishType} not found");
-
-            var dish = new Dish(
-                dishDTO.Name,
-                Weight.CreateFromGram(dishDTO.Weight),
-                new Price(dishDTO.Price),
-                dishType,
-                dishDTO.Ingredients is null ? new() : dishDTO.Ingredients
-                );
-            await _dishRepository.CreateAsync(dish, cancellationToken);
-            branch.AddDishes(dish, dishDTO.IsAvaible);
-
-            await _branchRepository.UpdateAsync(branch, cancellationToken);
-
-            await _dishRepository.UnitOfWork.SaveChangesAsync();
-
-            return Ok();
+            try
+            {
+                var dish = new Dish(
+                    dishDTO.Name,
+                    Weight.CreateFromGram(dishDTO.Weight),
+                    new Price(dishDTO.Price),
+                    dishType,
+                    dishDTO.Ingredients is null ? new() : dishDTO.Ingredients
+                    );
+                await _dishRepository.CreateAsync(dish, cancellationToken);
+                branch.AddDishes(dish, dishDTO.IsAvaible);
+                await _branchRepository.UpdateAsync(branch, cancellationToken);
+                await _dishRepository.UnitOfWork.SaveChangesAsync();
+                return Ok(dish.Id);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Error while creating Dish.{ex.Message}");
+            }
+            
         }
         [HttpPost]
         [Route("{dishId}/branch/{branchId}")]
-        public async Task<IActionResult> CreateForBranchAsync(int dishId, int branchId,bool IsAvaible, CancellationToken cancellationToken)
+        public async Task<IActionResult> CreateForBranchAsync(int dishId, int branchId, bool IsAvaible, CancellationToken cancellationToken)
         {
             var branch = await _branchRepository.FindByIdAsync(branchId, cancellationToken);
             if (branch is null)
                 return NotFound("Branch not found");
             var dish = await _dishRepository.FindById(dishId, cancellationToken);
-            
+
             if (dish is null)
                 return NotFound("Dish not found");
-            
-            branch.AddDishes(dish, IsAvaible);
-
-            await _branchRepository.UpdateAsync(branch, cancellationToken);
-
-            await _dishRepository.UnitOfWork.SaveChangesAsync();
-
-            return Ok();
+            try
+            {
+                branch.AddDishes(dish, IsAvaible);
+                await _branchRepository.UpdateAsync(branch, cancellationToken);
+                await _dishRepository.UnitOfWork.SaveChangesAsync();
+                return Ok("Successful");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Error while creating Dish.{ex.Message}");
+            }
         }
         [HttpPost]
         [Route("restaurant/{id}")]
@@ -100,7 +115,7 @@ namespace FoodDelivery.RestaurantCatalogApi.Controllers
             var restaurant = await _restaurantRepository.FindByIdAsync(id, cancellationToken);
             if (restaurant is null)
                 return NotFound("Restaurant not found");
-           
+
             var branches = await _branchRepository.GetBranchesByResaurantIdAsync(id, cancellationToken);
             if (branches is null)
                 return NotFound("Branches not found");
@@ -108,25 +123,30 @@ namespace FoodDelivery.RestaurantCatalogApi.Controllers
             var dishType = await _dishTypeRepository.GetByName(dishDTO.DishType, cancellationToken);
             if (dishType is null)
                 return NotFound($"Dish type: {dishDTO.DishType} not found");
-
-            var dish = new Dish(
-                dishDTO.Name,
-                Weight.CreateFromGram(dishDTO.Weight),
-                new Price(dishDTO.Price),
-                dishType,
-                dishDTO.Ingredients is null ? new() : dishDTO.Ingredients
-                );
-
-            await _dishRepository.CreateAsync(dish, cancellationToken);
-            foreach (var branch in branches)
+            try
             {
-                branch.AddDishes(dish, dishDTO.IsAvaible);
-                await _branchRepository.UpdateAsync(branch, cancellationToken);
+                var dish = new Dish(
+                    dishDTO.Name,
+                    Weight.CreateFromGram(dishDTO.Weight),
+                    new Price(dishDTO.Price),
+                    dishType,
+                    dishDTO.Ingredients is null ? new() : dishDTO.Ingredients
+                    );
+                await _dishRepository.CreateAsync(dish, cancellationToken);
+                foreach (var branch in branches)
+                {
+                    branch.AddDishes(dish, dishDTO.IsAvaible);
+                    await _branchRepository.UpdateAsync(branch, cancellationToken);
+                }
+
+                await _dishRepository.UnitOfWork.SaveChangesAsync();
+                return Ok(dish.Id);
+
             }
-
-            await _dishRepository.UnitOfWork.SaveChangesAsync();
-
-            return Ok();
+            catch (Exception ex)
+            {
+                return BadRequest($"Error while creating Dish.{ex.Message}");
+            }
         }
 
         [HttpPost]
@@ -142,14 +162,20 @@ namespace FoodDelivery.RestaurantCatalogApi.Controllers
             var branches = await _branchRepository.GetBranchesByResaurantIdAsync(restaurantId, cancellationToken);
             if (branches is null)
                 return NotFound("Branches not found");
-            foreach (var branch in branches)
+            try
             {
-                branch.AddDishes(dish, IsAvaible);
-                await _branchRepository.UpdateAsync(branch, cancellationToken);
+                foreach (var branch in branches)
+                {
+                    branch.AddDishes(dish, IsAvaible);
+                    await _branchRepository.UpdateAsync(branch, cancellationToken);
+                }
+                await _dishRepository.UnitOfWork.SaveChangesAsync();
+                return Ok("Successful");
             }
-            await _dishRepository.UnitOfWork.SaveChangesAsync();
-
-            return Ok();
+            catch (Exception ex)
+            {
+                return BadRequest($"Error while creating Dish.{ex.Message}");
+            }
         }
         #endregion
 
@@ -163,42 +189,53 @@ namespace FoodDelivery.RestaurantCatalogApi.Controllers
             var dishType = await _dishTypeRepository.GetByName(dish.DishType, cancellationToken);
             if (dishType is null)
                 return NotFound($"Dish type: {dish.DishType} not found");
-
-            updateDish.ChangeDishType(dishType);
-            updateDish.ChangeIngredients(dish.Ingredients);
-            updateDish.ChangeName(dish.Name);
-            updateDish.ChangePrice(new Price(dish.Price));
-            updateDish.ChangeWeight(Weight.CreateFromGram(dish.Weight));
-            await _dishRepository.UpdateAsync(updateDish, cancellationToken);
-            await _dishRepository.UnitOfWork.SaveChangesAsync();
-            
-            return Ok(updateDish);
+            try
+            {
+                updateDish.ChangeDishType(dishType);
+                updateDish.ChangeIngredients(dish.Ingredients);
+                updateDish.ChangeName(dish.Name);
+                updateDish.ChangePrice(new Price(dish.Price));
+                updateDish.ChangeWeight(Weight.CreateFromGram(dish.Weight));
+                await _dishRepository.UpdateAsync(updateDish, cancellationToken);
+                await _dishRepository.UnitOfWork.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Error while updating Dish.{ex.Message}");
+            }
+            return Ok();
         }
         [HttpPut]
         [Route("branch/{branchId}")]
 
-        public async Task<IActionResult> UpdateDishAvaibleAsync(DishResponseDTO dish,int branchId, CancellationToken cancellationToken)
+        public async Task<IActionResult> UpdateDishAvaibleAsync(DishResponseDTO dish, int branchId, CancellationToken cancellationToken)
         {
             var branch = await _branchRepository.FindByIdAsync(dish.Id, cancellationToken);
             if (branch is null)
                 return NotFound("branch not found");
-            var updateDish = branch.Dishes.Where(x=> x.BranchId == branchId).Select(x=> x.Dish).FirstOrDefault();
+            var updateDish = branch.Dishes.Where(x => x.BranchId == branchId).Select(x => x.Dish).FirstOrDefault();
             if (updateDish is null)
                 return NotFound("Dish not found");
 
             var dishType = await _dishTypeRepository.GetByName(dish.DishType, cancellationToken);
             if (dishType is null)
                 return NotFound($"Dish type: {dish.DishType} not found");
+            try
+            {
+                updateDish.ChangeDishType(dishType);
+                updateDish.ChangeIngredients(dish.Ingredients);
+                updateDish.ChangeName(dish.Name);
+                updateDish.ChangePrice(new Price(dish.Price));
+                updateDish.ChangeWeight(Weight.CreateFromGram(dish.Weight));
+                await _dishRepository.UpdateAsync(updateDish, cancellationToken);
+                await _dishRepository.UnitOfWork.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Error while updating Dish.{ex.Message}");
 
-            updateDish.ChangeDishType(dishType);
-            updateDish.ChangeIngredients(dish.Ingredients);
-            updateDish.ChangeName(dish.Name);
-            updateDish.ChangePrice(new Price(dish.Price));
-            updateDish.ChangeWeight(Weight.CreateFromGram(dish.Weight));
-            await _dishRepository.UpdateAsync(updateDish, cancellationToken);
-            await _dishRepository.UnitOfWork.SaveChangesAsync();
-
-            return Ok(updateDish);
+            }
+            return Ok();
         }
         [HttpGet]
         [Route("{id}")]

@@ -24,10 +24,17 @@ namespace FoodDelivery.Delivering.API.Controllers
         public async Task<IActionResult> GetById(long id)
         {
             var getDeliveryQuery = new GetDeliveryByIdQuery(id);
-            var delivery = await _mediator.Send(getDeliveryQuery);
-            if (delivery is null)
-                return NotFound("Delivery not found");
-            return Ok(delivery);
+            try
+            {
+                var delivery = await _mediator.Send(getDeliveryQuery);
+                if (delivery is null)
+                    return NotFound("Delivery not found");
+                return Ok(delivery);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Something gonna wrong {ex.Message}");
+            }
         }
         // GetBy courier
         [HttpGet]
@@ -35,9 +42,16 @@ namespace FoodDelivery.Delivering.API.Controllers
         public async Task<IActionResult> GetByCourierId(long id)
         {
             var getDeliveryQuery = new GetDeliveriesByCourierIdQuery(id);
-            var delivery = await _mediator.Send(getDeliveryQuery);
-       
-            return Ok(delivery);
+            try
+            {
+                var delivery = await _mediator.Send(getDeliveryQuery);
+                return Ok(delivery);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Something gonna wrong {ex.Message}");
+            }
+
         }
         // GetBy courier assigned deliveries
 
