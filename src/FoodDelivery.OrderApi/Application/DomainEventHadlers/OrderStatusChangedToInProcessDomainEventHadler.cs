@@ -14,12 +14,12 @@ public class OrderStatusChangedToInProcessDomainEventHadler
     private readonly IOrderIntegrationEventService _orderingIntegrationEventService;
     private readonly IOrderRequestRepository _orderRequestRepository;
     private readonly IMediator _mediator;
-    private readonly ILogger _logger;
+    private readonly ILogger<OrderStatusChangedToInProcessDomainEventHadler> _logger;
 
     public OrderStatusChangedToInProcessDomainEventHadler(IOrderIntegrationEventService orderingIntegrationEventService,
         IOrderRequestRepository orderRequestRepository,
         IMediator mediator,
-        ILogger logger)
+        ILogger<OrderStatusChangedToInProcessDomainEventHadler> logger)
     {
         _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         _orderingIntegrationEventService = orderingIntegrationEventService ?? throw new ArgumentNullException(nameof(orderingIntegrationEventService));

@@ -10,13 +10,14 @@ namespace FoodDelivery.Delivering.API.Application.DomainEventHandlers
     public class DeliveryStatusChangedToArrivedAtDeliveryLocationDomainEventEventHandler
             : INotificationHandler<DeliveryStatusChangedToArrivedAtDeliveryLocationDomainEvent>
     {
-        private readonly ILogger _logger;
+        private readonly ILogger<DeliveryStatusChangedToArrivedAtDeliveryLocationDomainEventEventHandler> _logger;
         private readonly IDeliveryIntegrationEventService _deliveryIntegrationEventService;
         private readonly IMediator _mediator;
         private readonly IDeliveryRepository _deliveryRepository;
 
         public DeliveryStatusChangedToArrivedAtDeliveryLocationDomainEventEventHandler(IDeliveryIntegrationEventService dileveryIntegrationEventService,
-            IMediator mediator, IDeliveryRepository deliveryRepository, ILogger logger)
+            IMediator mediator, IDeliveryRepository deliveryRepository, 
+            ILogger<DeliveryStatusChangedToArrivedAtDeliveryLocationDomainEventEventHandler> logger)
         {
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
             _deliveryRepository = deliveryRepository ?? throw new ArgumentNullException(nameof(deliveryRepository));

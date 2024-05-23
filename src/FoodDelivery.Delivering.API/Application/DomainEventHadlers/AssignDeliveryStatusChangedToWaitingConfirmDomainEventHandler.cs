@@ -11,14 +11,15 @@ namespace FoodDelivery.Delivering.API.Application.DomainEventHandlers
     public class AssignDeliveryStatusChangedToWaitingConfirmDomainEventHandler
          : INotificationHandler<AssignDeliveryStatusChangedToWaitingConfirmDomainEvent>
     {
-        private readonly ILogger _logger;
+        private readonly ILogger<AssignDeliveryStatusChangedToWaitingConfirmDomainEventHandler> _logger;
         private readonly IDeliveryIntegrationEventService _deliveryIntegrationEventService;
         private readonly IMediator _mediator;
         private readonly IDeliveryRepository _deliveryRepository;
         private readonly ICourierRepository _courierRepository;
         private readonly IDeliverySignalRHubService _deliverySignalRHubService;
         public AssignDeliveryStatusChangedToWaitingConfirmDomainEventHandler(IDeliveryIntegrationEventService dileveryIntegrationEventService,
-            IMediator mediator, IDeliveryRepository deliveryRepository, ILogger logger, IDeliverySignalRHubService deliverySignalRHubService, ICourierRepository courierRepository)
+            IMediator mediator, IDeliveryRepository deliveryRepository, 
+            ILogger<AssignDeliveryStatusChangedToWaitingConfirmDomainEventHandler> logger, IDeliverySignalRHubService deliverySignalRHubService, ICourierRepository courierRepository)
         {
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
             _deliveryRepository = deliveryRepository ?? throw new ArgumentNullException(nameof(deliveryRepository));

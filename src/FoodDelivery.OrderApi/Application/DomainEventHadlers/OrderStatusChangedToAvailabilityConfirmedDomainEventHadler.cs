@@ -16,17 +16,17 @@ public class OrderStatusChangedToAvailabilityConfirmedDomainEventHadler
     private readonly IOrderIntegrationEventService _orderingIntegrationEventService;
     private readonly IOrderRequestRepository _orderRequestRepository;
     private readonly IMediator _mediator;
-    private readonly ILogger _logger;
+    private readonly ILogger<OrderStatusChangedToAvailabilityConfirmedDomainEventHadler> _logger;
 
     public OrderStatusChangedToAvailabilityConfirmedDomainEventHadler(IOrderIntegrationEventService orderingIntegrationEventService,
         IOrderRequestRepository orderRequestRepository,
         IMediator mediator,
-        ILogger logger)
+        ILogger<OrderStatusChangedToAvailabilityConfirmedDomainEventHadler> logger)
     {
-        _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator)); ;
-        _orderingIntegrationEventService = orderingIntegrationEventService ?? throw new ArgumentNullException(nameof(orderingIntegrationEventService)); ;
-        _orderRequestRepository = orderRequestRepository ?? throw new ArgumentNullException(nameof(orderRequestRepository)); ;
-        _logger = logger ?? throw new ArgumentNullException(nameof(logger)); ;
+        _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+        _orderingIntegrationEventService = orderingIntegrationEventService ?? throw new ArgumentNullException(nameof(orderingIntegrationEventService));
+        _orderRequestRepository = orderRequestRepository ?? throw new ArgumentNullException(nameof(orderRequestRepository));
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
     public async Task Handle(OrderStatusChangedToAvailabilityConfirmedDomainEvent domainEvent, CancellationToken cancellationToken)

@@ -12,13 +12,14 @@ namespace FoodDelivery.Delivering.API.Application.DomainEventHandlers
     public class DeliveryStatusChangedToCanceledDomainEventHandler
             : INotificationHandler<DeliveryStatusChangedToCanceledDomainEvent>
     {
-        private readonly ILogger _logger;
+        private readonly ILogger<DeliveryStatusChangedToCanceledDomainEventHandler> _logger;
         private readonly IDeliveryIntegrationEventService _deliveryIntegrationEventService;
         private readonly IMediator _mediator;
         private readonly IDeliveryRepository _deliveryRepository;
 
         public DeliveryStatusChangedToCanceledDomainEventHandler(IDeliveryIntegrationEventService dileveryIntegrationEventService,
-            IMediator mediator, IDeliveryRepository deliveryRepository, ILogger logger)
+            IMediator mediator, IDeliveryRepository deliveryRepository, 
+            ILogger<DeliveryStatusChangedToCanceledDomainEventHandler> logger)
         {
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
             _deliveryRepository = deliveryRepository ?? throw new ArgumentNullException(nameof(deliveryRepository));

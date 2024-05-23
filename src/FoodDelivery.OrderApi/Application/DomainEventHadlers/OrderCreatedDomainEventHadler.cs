@@ -12,18 +12,18 @@ namespace FoodDelivery.OrderApi.Application.DomainEventHadlers
     public class OrderCreatedDomainEventHadler
          : INotificationHandler<OrderCreatedDomainEvent>
     {
-        private readonly ILogger _logger;
+        private readonly ILogger<OrderCreatedDomainEventHadler> _logger;
         private readonly IOrderIntegrationEventService _orderingIntegrationEventService;
         private readonly IMediator _mediator;
         private readonly IUserRepository _userRepository;
 
         public OrderCreatedDomainEventHadler(IOrderIntegrationEventService orderingIntegrationEventService,
-            IMediator mediator, IUserRepository userRepository, ILogger logger)
+            IMediator mediator, IUserRepository userRepository, ILogger<OrderCreatedDomainEventHadler> logger)
         {
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
             _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
             _orderingIntegrationEventService = orderingIntegrationEventService ?? throw new ArgumentNullException(nameof(orderingIntegrationEventService));
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger)); 
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         public async Task Handle(OrderCreatedDomainEvent @event, CancellationToken cancellationToken)

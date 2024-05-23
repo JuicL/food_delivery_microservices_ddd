@@ -17,12 +17,12 @@ public class OrderStatusChangedToCanceledDomainEventHadler
     private readonly IOrderIntegrationEventService _orderingIntegrationEventService;
     private readonly IOrderRequestRepository _orderRequestRepository;
     private readonly IMediator _mediator;
-    private readonly ILogger _logger;
+    private readonly ILogger<OrderStatusChangedToCanceledDomainEventHadler> _logger;
 
     public OrderStatusChangedToCanceledDomainEventHadler(IOrderIntegrationEventService orderingIntegrationEventService,
         IOrderRequestRepository orderRequestRepository, 
         IMediator mediator,
-        ILogger logger)
+        ILogger<OrderStatusChangedToCanceledDomainEventHadler> logger)
     {
         _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         _orderingIntegrationEventService = orderingIntegrationEventService ?? throw new ArgumentNullException(nameof(orderingIntegrationEventService));

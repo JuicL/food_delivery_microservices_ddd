@@ -12,14 +12,14 @@ namespace FoodDelivery.Delivering.API.Application.DomainEventHandlers
     public class DeliveryCreatedDomainEventHandler
          : INotificationHandler<DeliveryCreatedDomainEvent>
     {
-        private readonly ILogger _logger;
+        private readonly ILogger<DeliveryCreatedDomainEventHandler> _logger;
         private readonly IDeliveryIntegrationEventService _deliveryIntegrationEventService;
         private readonly IMediator _mediator;
         private readonly IDeliveryRepository _deliveryRepository;
         private readonly IAssignDeliveryQueue _assignDeliveryQueue;
         public DeliveryCreatedDomainEventHandler(IDeliveryIntegrationEventService dileveryIntegrationEventService,
              IAssignDeliveryQueue assignDeliveryQueue,
-            IMediator mediator, IDeliveryRepository deliveryRepository, ILogger logger)
+            IMediator mediator, IDeliveryRepository deliveryRepository, ILogger<DeliveryCreatedDomainEventHandler> logger)
         {
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
             _deliveryRepository = deliveryRepository ?? throw new ArgumentNullException(nameof(deliveryRepository));

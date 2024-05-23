@@ -19,7 +19,7 @@ public class TransactionBehavior<TRequest, TResponse> : IPipelineBehavior<TReque
     {
         _dbContext = dbContext ?? throw new ArgumentException(nameof(DeliveryContext));
         _deliveryIntegrationEventService = orderingIntegrationEventService ?? throw new ArgumentException(nameof(orderingIntegrationEventService));
-        _logger = logger ?? throw new ArgumentException(nameof(ILogger));
+        _logger = logger ?? throw new ArgumentException(nameof(logger));
     }
 
     public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
