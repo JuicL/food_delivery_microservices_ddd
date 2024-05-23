@@ -8,6 +8,7 @@
 - :white_check_mark: Redis
 - :white_check_mark: GRPC
 - :hourglass_flowing_sand: K8S
+- :white_check_mark: Logger Serilog 
 
 # Services
 - Restaurant catalog
